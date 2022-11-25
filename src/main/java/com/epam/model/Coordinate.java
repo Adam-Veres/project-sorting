@@ -1,5 +1,8 @@
 package com.epam.model;
 
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,16 +16,18 @@ public class Coordinate {
 	/**
 	 * Latitudes are horizontal lines that measures distance north or south of the equator.
 	 */
-	private double latitude;
+	@Column(scale = 6, precision = 8)
+	private BigDecimal latitude;
 	/**
 	 * Longitudes are vertical lines that measure east or west of the meridian in Greenwich, England.
 	 */
-	private double longitude;
+	@Column(scale = 6, precision = 8)
+	private BigDecimal longitude;
 	
 	public Coordinate() {
 	}
 
-	public Coordinate(long id, double latitude, double longitude) {
+	public Coordinate(long id, BigDecimal latitude, BigDecimal longitude) {
 		this.id = id;
 		this.longitude = longitude;
 		this.latitude = latitude;
@@ -36,19 +41,19 @@ public class Coordinate {
 		this.id = id;
 	}
 
-	public double getLongitude() {
+	public BigDecimal getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(BigDecimal longitude) {
 		this.longitude = longitude;
 	}
 
-	public double getLatitude() {
+	public BigDecimal getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
 	}
 	
