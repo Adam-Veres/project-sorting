@@ -87,7 +87,7 @@
   						<annotationProcessorPath>
   							<groupId>org.hibernate</groupId>
 						    <artifactId>hibernate-jpamodelgen</artifactId>
-						    <version>6.1.5.Final</version>
+						    <version>5.3.28.Final</version>
   						</annotationProcessorPath>
   					</annotationProcessorPaths>
   				</configuration>
