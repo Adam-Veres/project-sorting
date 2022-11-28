@@ -82,6 +82,12 @@
 		    <artifactId>mapstruct</artifactId>
 		    <version>1.5.3.Final</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <scope>provided</scope>
+		</dependency>
 
 	</dependencies>
 

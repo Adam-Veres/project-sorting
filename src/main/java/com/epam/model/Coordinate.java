@@ -7,6 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Coordinate {
 
@@ -23,38 +32,5 @@ public class Coordinate {
 	 */
 	@Column(scale = 6, precision = 8)
 	private BigDecimal longitude;
-	
-	public Coordinate() {
-	}
-
-	public Coordinate(long id, BigDecimal latitude, BigDecimal longitude) {
-		this.id = id;
-		this.longitude = longitude;
-		this.latitude = latitude;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public BigDecimal getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(BigDecimal longitude) {
-		this.longitude = longitude;
-	}
-
-	public BigDecimal getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(BigDecimal latitude) {
-		this.latitude = latitude;
-	}
 	
 }
