@@ -1,16 +1,17 @@
 package com.epam.service;
 
-import com.epam.model.EcoService;
-import com.epam.repository.EcoServiceRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class EcoServiceService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.epam.model.EcoService;
+import com.epam.repository.EcoServiceRepository;
+
+@Service
+public class EcoServiceService {
+	
+	@Autowired
 	EcoServiceRepository ecoServiceRepository;
 
 	public List<EcoService> getAllEcoService(){
