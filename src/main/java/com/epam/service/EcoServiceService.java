@@ -3,6 +3,7 @@ package com.epam.service;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,5 +109,10 @@ public class EcoServiceService {
 		}
 		
 		return ecoServiceRepository.findAll(spec);
+	}
+
+	public EcoService getServiceById(Optional<Long> id) {
+		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("Given ID is not a valid format!"));
+		return ecoServiceRepository.findById(identifier).get();
 	}
 }

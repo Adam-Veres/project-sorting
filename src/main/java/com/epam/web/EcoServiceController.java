@@ -2,8 +2,7 @@ package com.epam.web;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-import javax.validation.Valid;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,6 +55,15 @@ public class EcoServiceController {
 			return ecoServices;
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No EcoServices in Database!");
+	}
+	
+	@GetMapping(path = "/{id}")
+	public EcoServiceDtoNarrow getServiceById(@PathVariable Long id) {
+		EcoServiceDtoNarrow ecoService = ecoServiceMapper.ecoServiceToEcoServiceDtoNarrow(ecoServiceService.getServiceById(Optional.of(id)));
+		if(ecoService != null) {
+			return ecoService;
+		}
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No EcoServices exist with this id: " + id + "  in Database!");
 	}
 	
 	@PostMapping(path = "/{distance}")
