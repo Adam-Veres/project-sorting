@@ -14,6 +14,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.reactive.config.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(final HttpSecurity httpSecurity) throws Exception {
 		// We don't need CSRF
 		httpSecurity.csrf().disable()
-				.cors().disable()
+				//.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
+				.cors().and()
 				// authenticate this particular request
 				.authorizeRequests().antMatchers("/api/protected/*").authenticated().
 				// all other requests don't need to be authenticated
@@ -60,4 +65,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// Add a filter to validate the tokens with every request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		return source;
+	}
+
 }
