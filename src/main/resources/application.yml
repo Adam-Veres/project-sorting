@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     url: ${JDBC_URL}
     username: ${DB_USERNAME}
