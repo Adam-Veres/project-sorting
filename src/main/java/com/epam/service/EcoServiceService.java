@@ -3,12 +3,18 @@ package com.epam.service;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.epam.dto.CoordinateDto;
+import com.epam.model.Coordinate;
+import com.epam.model.DeliveryOption;
 import com.epam.model.EcoService;
+import com.epam.model.PaymentCondition;
+import com.epam.model.WasteType;
 import com.epam.repository.EcoServiceRepository;
 
 @Service
@@ -36,7 +42,7 @@ public class EcoServiceService {
 	 * Search Eco Services in an area from database. Needed the central coordinate and distance from it.
 	 * @param coordinate is the central coordinate.
 	 * @param distance services from central coordinate
-	 * @return List of Eco Services in range fromdatabase
+	 * @return List of Eco Services in range from database
 	 */
 	public List<EcoService> getServiceFromArea(CoordinateDto coordinate, BigDecimal distance) {
 		if(coordinate == null || coordinate.getLatitude() == null || coordinate.getLongitude() == null || distance == null) {
@@ -67,5 +73,40 @@ public class EcoServiceService {
 			value = value.multiply(BigDecimal.valueOf(-1), MC).add(reminder, MC);
 		}
 		return value;
+	}
+
+	public List<EcoService> getFilteredService(EcoService ecoService, BigDecimal distance) {
+		Coordinate coordinate = ecoService.getCoordinate();
+		BigDecimal startLatitude = coordinateValidation(coordinate.getLatitude().subtract(distance.divide(ONE_DEGREE, MC)));
+		BigDecimal stopLatitude = coordinateValidation(coordinate.getLatitude().add(distance.divide(ONE_DEGREE, MC)));
+		BigDecimal startLongitude = coordinateValidation(coordinate.getLongitude().subtract(distance.divide(ONE_DEGREE, MC)));
+		BigDecimal stopLongitude = coordinateValidation(coordinate.getLongitude().add(distance.divide(ONE_DEGREE, MC)));
+		Set<DeliveryOption> deliveryOptions = ecoService.getDeliveryOptions();
+		Set<PaymentCondition> paymentConditions = ecoService.getPaymentConditions();
+		Set<WasteType> typesOfWaste = ecoService.getTypeOfWastes();
+		Specification<EcoService> spec = Specification.where(null);
+		
+		spec = spec.and(EcoServiceSpecification.hasAreaLatitude(startLatitude, stopLatitude));
+		spec = spec.and(EcoServiceSpecification.hasAreaLongitude(startLongitude, stopLongitude));
+		
+		if(!ecoService.getDeliveryOptions().isEmpty()) {
+			for (DeliveryOption deliveryOption : deliveryOptions) {
+				spec = spec.and(EcoServiceSpecification.hasDeliveryOption(deliveryOption));
+			}
+		}
+		
+		if(!ecoService.getPaymentConditions().isEmpty()) {
+			for (PaymentCondition paymentCondition : paymentConditions) {
+				spec = spec.and(EcoServiceSpecification.hasPaymentCondition(paymentCondition));
+			}
+		}
+		
+		if(!ecoService.getTypeOfWastes().isEmpty()) {
+			for (WasteType wasteType : typesOfWaste) {
+				spec = spec.and(EcoServiceSpecification.hasTypeOfWaste(wasteType));
+			}
+		}
+		
+		return ecoServiceRepository.findAll(spec);
 	}
 }

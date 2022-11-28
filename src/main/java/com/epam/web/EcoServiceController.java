@@ -3,10 +3,14 @@ package com.epam.web;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -48,6 +52,15 @@ public class EcoServiceController {
 	@GetMapping(path = "/{latitude}/{longitude}/{distance}")
 	public List<EcoServiceDtoNarrow> getServicesFromArea(@PathVariable BigDecimal latitude, @PathVariable BigDecimal longitude, @PathVariable BigDecimal distance) {
 		List<EcoServiceDtoNarrow> ecoServices = ecoServiceMapper.ecoServiceListToEcoServiceListDtoNarrow(ecoServiceService.getServiceFromArea(new CoordinateDto(0, latitude, longitude), distance));
+		if(!ecoServices.isEmpty()) {
+			return ecoServices;
+		}
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No EcoServices in Database!");
+	}
+	
+	@PostMapping(path = "/{distance}")
+	public List<EcoServiceDtoNarrow> getFilteredServicesFromArea(@RequestBody EcoServiceDto ecoServiceDto, @PathVariable BigDecimal distance){
+		List<EcoServiceDtoNarrow> ecoServices = ecoServiceMapper.ecoServiceListToEcoServiceListDtoNarrow(ecoServiceService.getFilteredService(ecoServiceMapper.ecoServiceDtoToEcoService(ecoServiceDto), distance));
 		if(!ecoServices.isEmpty()) {
 			return ecoServices;
 		}
