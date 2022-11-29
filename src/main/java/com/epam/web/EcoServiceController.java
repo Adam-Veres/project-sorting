@@ -57,6 +57,11 @@ public class EcoServiceController {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No EcoServices in Database!");
 	}
 	
+	/**
+	 * 
+	 * @param id of service
+	 * @return give back one Eco Service
+	 */
 	@GetMapping(path = "/{id}")
 	public EcoServiceDtoNarrow getServiceById(@PathVariable Long id) {
 		EcoServiceDtoNarrow ecoService = ecoServiceMapper.ecoServiceToEcoServiceDtoNarrow(ecoServiceService.getServiceById(Optional.of(id)));
@@ -66,6 +71,12 @@ public class EcoServiceController {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No EcoServices exist with this id: " + id + "  in Database!");
 	}
 	
+	/**
+	 * 
+	 * @param ecoServiceDto will an example for searching
+	 * @param distance
+	 * @return give back Eco Services what satisfied the requirements
+	 */
 	@PostMapping(path = "/{distance}")
 	public List<EcoServiceDtoNarrow> getFilteredServicesFromArea(@RequestBody EcoServiceDto ecoServiceDto, @PathVariable BigDecimal distance){
 		List<EcoServiceDtoNarrow> ecoServices = ecoServiceMapper.ecoServiceListToEcoServiceListDtoNarrow(ecoServiceService.getFilteredService(ecoServiceMapper.ecoServiceDtoToEcoService(ecoServiceDto), distance));

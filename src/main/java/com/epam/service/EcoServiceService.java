@@ -75,12 +75,18 @@ public class EcoServiceService {
 		return value;
 	}
 
+	/**
+	 * Provide list of services in an area. You can specify different filters by parameterizing the example EcoService object.
+	 * @param ecoService (as an Example)
+	 * @param distance determine the area
+	 * @return List<EcoService>
+	 */
 	public List<EcoService> getFilteredService(EcoService ecoService, BigDecimal distance) {
 		Coordinate coordinate = ecoService.getCoordinate();
-		BigDecimal startLatitude = coordinateValidation(coordinate.getLatitude().subtract(distance.divide(ONE_DEGREE, MC)));
-		BigDecimal stopLatitude = coordinateValidation(coordinate.getLatitude().add(distance.divide(ONE_DEGREE, MC)));
-		BigDecimal startLongitude = coordinateValidation(coordinate.getLongitude().subtract(distance.divide(ONE_DEGREE, MC)));
-		BigDecimal stopLongitude = coordinateValidation(coordinate.getLongitude().add(distance.divide(ONE_DEGREE, MC)));
+		BigDecimal startLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().subtract(distance.divide(ONE_DEGREE, MC))));
+		BigDecimal stopLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().add(distance.divide(ONE_DEGREE, MC))));
+		BigDecimal startLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().subtract(distance.divide(ONE_DEGREE, MC))));
+		BigDecimal stopLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().add(distance.divide(ONE_DEGREE, MC))));
 		Set<DeliveryOption> deliveryOptions = ecoService.getDeliveryOptions();
 		Set<PaymentCondition> paymentConditions = ecoService.getPaymentConditions();
 		Set<WasteType> typesOfWaste = ecoService.getTypeOfWastes();
@@ -110,6 +116,11 @@ public class EcoServiceService {
 		return ecoServiceRepository.findAll(spec);
 	}
 
+	/**
+	 * Providing an Eco Service by id.
+	 * @param id of a service
+	 * @return service what belongs to the given id
+	 */
 	public EcoService getServiceById(Optional<Long> id) {
 		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("Given ID is not a valid format!"));
 		return ecoServiceRepository.findById(identifier).get();
