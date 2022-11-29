@@ -2,6 +2,9 @@ package com.epam.dto;
 
 import java.util.Set;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.epam.model.Coordinate;
 import com.epam.model.DeliveryOption;
 import com.epam.model.PaymentCondition;
@@ -19,10 +22,12 @@ import lombok.Setter;
 public class EcoServiceDto {
 
 	long id;
+	@NotBlank
 	String serviceName;
 	Set<WasteType> typeOfWastes;
 	Set<PaymentCondition> paymentConditions;
 	Set<DeliveryOption> deliveryOptions;
+	@NotNull
 	Coordinate coordinate;
 	
 }
