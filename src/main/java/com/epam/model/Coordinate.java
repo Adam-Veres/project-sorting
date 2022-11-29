@@ -1,9 +1,21 @@
 package com.epam.model;
 
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Coordinate {
 
@@ -13,43 +25,12 @@ public class Coordinate {
 	/**
 	 * Latitudes are horizontal lines that measures distance north or south of the equator.
 	 */
-	private double latitude;
+	@Column(scale = 6, precision = 8)
+	private BigDecimal latitude;
 	/**
 	 * Longitudes are vertical lines that measure east or west of the meridian in Greenwich, England.
 	 */
-	private double longitude;
-	
-	public Coordinate() {
-	}
-
-	public Coordinate(long id, double latitude, double longitude) {
-		this.id = id;
-		this.longitude = longitude;
-		this.latitude = latitude;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
+	@Column(scale = 6, precision = 8)
+	private BigDecimal longitude;
 	
 }

@@ -1,5 +1,6 @@
 package com.epam;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 
@@ -31,13 +32,15 @@ public class ProjectSortingApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		initDb();
+		if((ecoServiceRepository.findAll()).isEmpty()) {
+			initDb();
+		}
 	}
 	
 	public void initDb() {
-		Coordinate cord1 = coordinateRepository.save(new Coordinate(0, 50.448589, 30.5333339));
-		Coordinate cord2 = coordinateRepository.save(new Coordinate(0, 50.412123, 30.512486));
-		Coordinate cord3 = coordinateRepository.save(new Coordinate(0, 50.482625, 30.4603376));
+		Coordinate cord1 = coordinateRepository.save(new Coordinate(0, BigDecimal.valueOf(50.448589), BigDecimal.valueOf(30.5333339)));
+		Coordinate cord2 = coordinateRepository.save(new Coordinate(0, BigDecimal.valueOf(50.412123), BigDecimal.valueOf(30.512486)));
+		Coordinate cord3 = coordinateRepository.save(new Coordinate(0, BigDecimal.valueOf(50.482625), BigDecimal.valueOf(30.4603376)));
 		
 		EcoService es1 = new EcoService(0, "Super Eco", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord1);
