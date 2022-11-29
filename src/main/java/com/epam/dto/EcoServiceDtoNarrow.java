@@ -1,11 +1,6 @@
 package com.epam.dto;
 
-import java.util.Set;
-
 import com.epam.model.Coordinate;
-import com.epam.model.DeliveryOption;
-import com.epam.model.PaymentCondition;
-import com.epam.model.WasteType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,13 +11,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EcoServiceDto {
+public class EcoServiceDtoNarrow {
 
 	long id;
 	String serviceName;
-	Set<WasteType> typeOfWastes;
-	Set<PaymentCondition> paymentConditions;
-	Set<DeliveryOption> deliveryOptions;
 	Coordinate coordinate;
 	
 }

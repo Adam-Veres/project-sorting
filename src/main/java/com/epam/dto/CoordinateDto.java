@@ -1,42 +1,27 @@
 package com.epam.dto;
 
+import java.math.BigDecimal;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CoordinateDto {
 
 	long id;
-	double latitude;
-	double longitude;
-	
-	public CoordinateDto() {
-	}
-
-	public CoordinateDto(long id, double latitude, double longitude) {
-		this.id = id;
-		this.longitude = longitude;
-		this.latitude = latitude;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
+	@Min(value = -180)
+	@Max(value = 180)
+	BigDecimal latitude;
+	@Min(value = -180)
+	@Max(value = 180)
+	BigDecimal longitude;
 	
 }
