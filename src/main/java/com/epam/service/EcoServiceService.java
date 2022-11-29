@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -45,14 +46,14 @@ public class EcoServiceService {
 	 * @param distance services from central coordinate
 	 * @return List of Eco Services in range from database
 	 */
-	public List<EcoService> getServiceFromArea(CoordinateDto coordinate, BigDecimal distance) {
+	public List<EcoService> getServiceFromArea(final CoordinateDto coordinate, final BigDecimal distance) {
 		if(coordinate == null || coordinate.getLatitude() == null || coordinate.getLongitude() == null || distance == null) {
 			throw new IllegalArgumentException("Value can not be null!");
 		}
-		BigDecimal startLatitude = coordinateValidation(coordinate.getLatitude().subtract(distance.divide(ONE_DEGREE, MC)));
-		BigDecimal stopLatitude = coordinateValidation(coordinate.getLatitude().add(distance.divide(ONE_DEGREE, MC)));
-		BigDecimal startLongitude = coordinateValidation(coordinate.getLongitude().subtract(distance.divide(ONE_DEGREE, MC)));
-		BigDecimal stopLongitude = coordinateValidation(coordinate.getLongitude().add(distance.divide(ONE_DEGREE, MC)));
+		BigDecimal startLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().subtract(distance.divide(ONE_DEGREE, MC))));
+		BigDecimal stopLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().add(distance.divide(ONE_DEGREE, MC))));
+		BigDecimal startLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().subtract(distance.divide(ONE_DEGREE, MC))));
+		BigDecimal stopLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().add(distance.divide(ONE_DEGREE, MC))));
 		return ecoServiceRepository.findAllByCoordinateBetweenBorders(startLatitude, stopLatitude, startLongitude, stopLongitude);
 	}
 	
@@ -60,10 +61,8 @@ public class EcoServiceService {
 	 * Validate a coordinate. It is in range: -180 - 180. Recount the border slided coordinates.
 	 * 
 	 */
-	private BigDecimal coordinateValidation(BigDecimal value) {
-		if(value == null) {
-			throw new IllegalArgumentException("Value can not be null!");
-		}
+	private BigDecimal coordinateValidation(Optional<BigDecimal> valueRecieved) {
+		BigDecimal value = valueRecieved.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
 		BigDecimal reminder = BigDecimal.valueOf(0);
 		if(value.compareTo(BigDecimal.valueOf(180)) > 0 || value.compareTo(BigDecimal.valueOf(-180)) < 0) {
 			if(value.compareTo(BigDecimal.valueOf(0)) > 0) {

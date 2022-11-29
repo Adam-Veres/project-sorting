@@ -5,6 +5,15 @@ import java.math.BigDecimal;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CoordinateDto {
 
 	long id;
@@ -14,38 +23,5 @@ public class CoordinateDto {
 	@Min(value = -180)
 	@Max(value = 180)
 	BigDecimal longitude;
-	
-	public CoordinateDto() {
-	}
-
-	public CoordinateDto(long id, BigDecimal latitude, BigDecimal longitude) {
-		this.id = id;
-		this.longitude = longitude;
-		this.latitude = latitude;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public BigDecimal getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(BigDecimal longitude) {
-		this.longitude = longitude;
-	}
-
-	public BigDecimal getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(BigDecimal latitude) {
-		this.latitude = latitude;
-	}
 	
 }
