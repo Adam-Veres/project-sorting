@@ -77,10 +77,10 @@ public class EcoServiceService {
 
 	public List<EcoService> getFilteredService(EcoService ecoService, BigDecimal distance) {
 		Coordinate coordinate = ecoService.getCoordinate();
-		BigDecimal startLatitude = coordinateValidation(coordinate.getLatitude().subtract(distance.divide(ONE_DEGREE, MC)));
-		BigDecimal stopLatitude = coordinateValidation(coordinate.getLatitude().add(distance.divide(ONE_DEGREE, MC)));
-		BigDecimal startLongitude = coordinateValidation(coordinate.getLongitude().subtract(distance.divide(ONE_DEGREE, MC)));
-		BigDecimal stopLongitude = coordinateValidation(coordinate.getLongitude().add(distance.divide(ONE_DEGREE, MC)));
+		BigDecimal startLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().subtract(distance.divide(ONE_DEGREE, MC))));
+		BigDecimal stopLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().add(distance.divide(ONE_DEGREE, MC))));
+		BigDecimal startLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().subtract(distance.divide(ONE_DEGREE, MC))));
+		BigDecimal stopLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().add(distance.divide(ONE_DEGREE, MC))));
 		Set<DeliveryOption> deliveryOptions = ecoService.getDeliveryOptions();
 		Set<PaymentCondition> paymentConditions = ecoService.getPaymentConditions();
 		Set<WasteType> typesOfWaste = ecoService.getTypeOfWastes();
