@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.reactive.config.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -49,17 +49,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(final HttpSecurity httpSecurity) throws Exception {
-		// We don't need CSRF
-		httpSecurity.csrf().disable()
+		// We don't need CSRF ---> I think need and can do it
+		httpSecurity
+				.csrf().disable()
 				//.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
 				.cors().and()
 				// authenticate this particular request
-				.authorizeRequests().antMatchers("/api/protected/*").authenticated().
+				.authorizeRequests()
 				// all other requests don't need to be authenticated
-				anyRequest().permitAll().and().
+				.antMatchers("/api/protected/*").authenticated().anyRequest().permitAll()
+//				.antMatchers(HttpMethod.DELETE, "/api/ecoservice/manage/**").hasAuthority(null)
+//				.antMatchers(HttpMethod.PUT, "/api/ecoservice/manage/**").hasAuthority(null)
+//				.antMatchers(HttpMethod.POST, "/api/ecoservice/manage/**").hasAuthority(null)
+				.and()
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
-				exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		// Add a filter to validate the tokens with every request
