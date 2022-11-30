@@ -5,9 +5,11 @@ import com.epam.model.EcoUser;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface EcoUserRepository extends CrudRepository<EcoUser, Integer> {
-	
-	EcoUser findByUsername(String username);
+
+	Optional<EcoUser> findByUsername(String username);
 	
 }
