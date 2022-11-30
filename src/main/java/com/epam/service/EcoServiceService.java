@@ -1,18 +1,16 @@
 package com.epam.service;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.epam.dto.CoordinateDto;
-import com.epam.model.Coordinate;
 import com.epam.model.DeliveryOption;
 import com.epam.model.EcoService;
 import com.epam.model.PaymentCondition;
@@ -24,63 +22,48 @@ public class EcoServiceService {
 	
 	@Autowired
 	EcoServiceRepository ecoServiceRepository;
-	/*
-	 * There are 360 degree around the earth. One degree is 111.32 km.
-	 */
-	private static BigDecimal ONE_DEGREE = BigDecimal.valueOf(111.320);
-	/*
-	 * For use 6 digits behind the . in BigDecimal double value
-	 */
-	private static MathContext MC = new MathContext(6);
-
-	/**
-	 * @return List of all Eco Services from database
-	 */
+	
+	@Autowired
+	CoordinateService coordinateService;
+	
 	public List<EcoService> getAllEcoService(){
 		return ecoServiceRepository.findAll();
 	}
 
+
 	/**
-	 * Search Eco Services in an area from database. Needed the central coordinate and distance from it.
-	 * @param coordinate is the central coordinate.
-	 * @param distance services from central coordinate
-	 * @return List of Eco Services in range from database
+	 * You should get bottom-left (bl) and top-right (tr) coordinate
+	 * @param blLatitude
+	 * @param blLongitude
+	 * @param trLatitude
+	 * @param trLongitude
+	 * @return List<EcoService>
 	 */
-	public List<EcoService> getServiceFromArea(final CoordinateDto coordinate, final BigDecimal distance) {
-		if(coordinate == null || coordinate.getLatitude() == null || coordinate.getLongitude() == null || distance == null) {
-			throw new IllegalArgumentException("Value can not be null!");
-		}
-		BigDecimal startLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().subtract(distance.divide(ONE_DEGREE, MC))));
-		BigDecimal stopLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().add(distance.divide(ONE_DEGREE, MC))));
-		BigDecimal startLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().subtract(distance.divide(ONE_DEGREE, MC))));
-		BigDecimal stopLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().add(distance.divide(ONE_DEGREE, MC))));
+	public List<EcoService> getServiceFromArea(Optional<BigDecimal> blLatitude, Optional<BigDecimal> blLongitude,
+			Optional<BigDecimal> trLatitude, Optional<BigDecimal> trLongitude) {
+		BigDecimal startLatitude = blLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		BigDecimal startLongitude = blLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		BigDecimal stopLatitude = trLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		BigDecimal stopLongitude = trLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		
 		return ecoServiceRepository.findAllByCoordinateBetweenBorders(startLatitude, stopLatitude, startLongitude, stopLongitude);
 	}
-	
-	/*
-	 * Validate a coordinate. It is in range: -180 - 180. Recount the border slided coordinates.
-	 * 
-	 */
-	private BigDecimal coordinateValidation(Optional<BigDecimal> valueRecieved) {
-		BigDecimal value = valueRecieved.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
-		BigDecimal reminder = BigDecimal.valueOf(0);
-		if(value.compareTo(BigDecimal.valueOf(180)) > 0 || value.compareTo(BigDecimal.valueOf(-180)) < 0) {
-			if(value.compareTo(BigDecimal.valueOf(0)) > 0) {
-				reminder = value.subtract(BigDecimal.valueOf(180), MC).multiply(BigDecimal.valueOf(2), MC);
-			} else {
-				reminder = value.add(BigDecimal.valueOf(180), MC).multiply(BigDecimal.valueOf(2), MC);
-			}
-			value = value.multiply(BigDecimal.valueOf(-1), MC).add(reminder, MC);
-		}
-		return value;
-	}
 
-	public List<EcoService> getFilteredService(EcoService ecoService, BigDecimal distance) {
-		Coordinate coordinate = ecoService.getCoordinate();
-		BigDecimal startLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().subtract(distance.divide(ONE_DEGREE, MC))));
-		BigDecimal stopLatitude = coordinateValidation(Optional.of(coordinate.getLatitude().add(distance.divide(ONE_DEGREE, MC))));
-		BigDecimal startLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().subtract(distance.divide(ONE_DEGREE, MC))));
-		BigDecimal stopLongitude = coordinateValidation(Optional.of(coordinate.getLongitude().add(distance.divide(ONE_DEGREE, MC))));
+	/**
+	 * Provide list of services in an area. You can specify different filters by parameterizing the example EcoService object and get bottom-left (bl) and top-right (tr) coordinate.
+	 * @param ecoService (as an Example)
+	 * @param blLatitude
+	 * @param blLongitude
+	 * @param trLatitude
+	 * @param trLongitude
+	 * @return List<EcoService>
+	 */
+	public List<EcoService> getFilteredService(EcoService ecoService, Optional<BigDecimal> blLatitude, Optional<BigDecimal> blLongitude,
+			Optional<BigDecimal> trLatitude, Optional<BigDecimal> trLongitude) {
+		BigDecimal startLatitude = blLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		BigDecimal startLongitude = blLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		BigDecimal stopLatitude = trLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		BigDecimal stopLongitude = trLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
 		Set<DeliveryOption> deliveryOptions = ecoService.getDeliveryOptions();
 		Set<PaymentCondition> paymentConditions = ecoService.getPaymentConditions();
 		Set<WasteType> typesOfWaste = ecoService.getTypeOfWastes();
@@ -110,8 +93,64 @@ public class EcoServiceService {
 		return ecoServiceRepository.findAll(spec);
 	}
 
-	public EcoService getServiceById(Optional<Long> id) {
+	/**
+	 * Providing an Eco Service by id.
+	 * @param id of a service
+	 * @return service what belongs to the given id
+	 */
+	public Optional<EcoService> getServiceById(Optional<Long> id) {
 		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("Given ID is not a valid format!"));
-		return ecoServiceRepository.findById(identifier).get();
+		return ecoServiceRepository.findById(identifier);
 	}
+
+	/**
+	 * If Service exists with given id, will delete it.
+	 * @param id of Eco Service
+	 * @return true if Service being and deleted. False if Service is not being.
+	 */
+	@Transactional
+	public boolean deleteEcoService(Optional<Long> id) {
+		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("Given ID is not a valid format!"));
+		boolean isDeleted = false;
+		if(ecoServiceRepository.existsById(identifier)) {
+			ecoServiceRepository.deleteById(identifier);
+			isDeleted = true;
+		}
+		return isDeleted;
+	}
+
+	/**
+	 * Create new Eco Service
+	 * @param ecoService
+	 * @return the saved Entity
+	 */
+	@Transactional
+	public EcoService createNewEcoService(Optional<EcoService> ecoService) {
+		EcoService es = ecoService.orElseThrow(() -> new IllegalArgumentException("Given Object is not a valid format!"));
+		es.setCoordinate(coordinateService.createNewCoordinate(Optional.of(es.getCoordinate())));
+		return ecoServiceRepository.save(es);
+	}
+
+	/**
+	 * Update an existing Eco Service
+	 * @param ecoService new datas of service, add unmodified fields too
+	 * @param id of modified Eco Service
+	 * @return the modified entity
+	 */
+	@Transactional
+	public EcoService updateEcoService(Optional<EcoService> ecoService, Optional<Long> id) {
+		EcoService es = ecoService.orElseThrow(() -> new IllegalArgumentException("Given Object is not a valid format!"));
+		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("Given ID is not a valid format!"));
+		if(ecoServiceRepository.existsById(identifier)) {
+			EcoService existingEcoService = ecoServiceRepository.findById(identifier).get();
+			existingEcoService.setDeliveryOptions(es.getDeliveryOptions());
+			existingEcoService.setPaymentConditions(es.getPaymentConditions());
+			existingEcoService.setTypeOfWastes(es.getTypeOfWastes());
+			existingEcoService.setServiceName(es.getServiceName());
+			existingEcoService.setCoordinate(coordinateService.getExistingCoordinateOrCreateNew(Optional.of(es.getCoordinate())));
+			return ecoServiceRepository.save(existingEcoService);
+		}
+		return null;
+	}
+
 }
