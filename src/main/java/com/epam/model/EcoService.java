@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -65,7 +64,7 @@ public class EcoService {
 	private EcoUser owner;
 	
 	public EcoService(long id, String serviceName, Set<WasteType> typeOfWastes, Set<PaymentCondition> paymentConditions,
-			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings) {
+			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings, EcoUser owner) {
 		this.id = id;
 		this.serviceName = serviceName;
 		this.typeOfWastes = typeOfWastes;
@@ -75,6 +74,7 @@ public class EcoService {
 		this.description = description;
 		this.numOfRatings = numOfRatings;
 		this.sumOfRatings = sumOfRatings;
+		this.owner = owner;
 	}
 	
 	public void addRating(Optional<BigDecimal> rating) {

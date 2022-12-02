@@ -83,32 +83,6 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		Coordinate cord11 = coordinateRepository.save(new Coordinate(0, BigDecimal.valueOf(50.522655), BigDecimal.valueOf(30.614825)));
 		Coordinate cord12 = coordinateRepository.save(new Coordinate(0, BigDecimal.valueOf(50.527612), BigDecimal.valueOf(30.601459)));
 		
-
-		EcoService es1 = new EcoService(0, "Super Eco", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER)),
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord1,allServiceUsers.get(0));
-		EcoService es2 = new EcoService(0, "Recycle Hero", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord2,allServiceUsers.get(0));
-		EcoService es3 = new EcoService(0, "Plastic Eliminator", new HashSet<WasteType>(List.of(WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord3,allServiceUsers.get(0));
-		EcoService es4 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord4,allServiceUsers.get(1));
-		EcoService es5 = new EcoService(0, "Eco Station I", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord5,allServiceUsers.get(2));
-		EcoService es6 = new EcoService(0, "Metal man", new HashSet<WasteType>(List.of(WasteType.METALS)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN, DeliveryOption.TRUCK)), cord6,allServiceUsers.get(2));
-		EcoService es7 = new EcoService(0, "Make clean, not waste!", new HashSet<WasteType>(List.of(WasteType.PAPER)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)), cord7,allServiceUsers.get(2));
-		EcoService es8 = new EcoService(0, "ReMetalizer", new HashSet<WasteType>(List.of(WasteType.METALS)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD, PaymentCondition.CASH)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.TRUCK)), cord8,allServiceUsers.get(3));
-		EcoService es9 = new EcoService(0, "Eco Station II", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord9,allServiceUsers.get(3));
-		EcoService es10 = new EcoService(0, "All glass melts fast", new HashSet<WasteType>(List.of(WasteType.GLASS)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord10,allServiceUsers.get(3));
-		EcoService es11 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)), cord11,allServiceUsers.get(4));
-		EcoService es12 = new EcoService(0, "Eco Station III", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord12,allServiceUsers.get(4));
-
 		JSONArray ja = new JSONArray();
 		ja.put("You can find delivery and disposal pricing information here!");
 		JSONObject jo_delivey = new JSONObject();
@@ -120,56 +94,83 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		ja.put(jo_delivey);
 		ja.put(jo_waste);
 		
-		EcoService es1 = new EcoService(0, "Super Eco", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord1,
-				ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es2 = new EcoService(0, "Recycle Hero", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
-				cord2, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es3 = new EcoService(0, "Plastic Eliminator", new HashSet<WasteType>(List.of(WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
-				cord3, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es4 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
-				cord4, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es5 = new EcoService(0, "Eco Station I", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord5,
-				"desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es6 = new EcoService(0, "Metal man", new HashSet<WasteType>(List.of(WasteType.METALS)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN,
-						DeliveryOption.TRUCK)), cord6, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es7 = new EcoService(0, "Make clean, not waste!", new HashSet<WasteType>(List.of(WasteType.PAPER)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)),
-				cord7, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es8 = new EcoService(0, "ReMetalizer", new HashSet<WasteType>(List.of(WasteType.METALS)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD, PaymentCondition.CASH)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF,
-						DeliveryOption.TRUCK)), cord8, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es9 = new EcoService(0, "Eco Station II", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord9,
-				"desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es10 = new EcoService(0, "All glass melts fast", new HashSet<WasteType>(List.of(WasteType.GLASS)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
-				cord10, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es11 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)),
-				cord11, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
-		EcoService es12 = new EcoService(0, "Eco Station III", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
-				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord12,
-				"desc", BigDecimal.ZERO, BigDecimal.ZERO);
+		EcoService es1 = new EcoService(0, "Super Eco", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER)),
+				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord1, ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(0));
+//		EcoService es2 = new EcoService(0, "Recycle Hero", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord2,allServiceUsers.get(0));
+//		EcoService es3 = new EcoService(0, "Plastic Eliminator", new HashSet<WasteType>(List.of(WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord3,allServiceUsers.get(0));
+//		EcoService es4 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord4,allServiceUsers.get(1));
+//		EcoService es5 = new EcoService(0, "Eco Station I", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord5,allServiceUsers.get(2));
+//		EcoService es6 = new EcoService(0, "Metal man", new HashSet<WasteType>(List.of(WasteType.METALS)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN, DeliveryOption.TRUCK)), cord6,allServiceUsers.get(2));
+//		EcoService es7 = new EcoService(0, "Make clean, not waste!", new HashSet<WasteType>(List.of(WasteType.PAPER)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)), cord7,allServiceUsers.get(2));
+//		EcoService es8 = new EcoService(0, "ReMetalizer", new HashSet<WasteType>(List.of(WasteType.METALS)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD, PaymentCondition.CASH)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.TRUCK)), cord8,allServiceUsers.get(3));
+//		EcoService es9 = new EcoService(0, "Eco Station II", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord9,allServiceUsers.get(3));
+//		EcoService es10 = new EcoService(0, "All glass melts fast", new HashSet<WasteType>(List.of(WasteType.GLASS)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord10,allServiceUsers.get(3));
+//		EcoService es11 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)), cord11,allServiceUsers.get(4));
+//		EcoService es12 = new EcoService(0, "Eco Station III", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord12,allServiceUsers.get(4));
+
+		
+		
+//		EcoService es1 = new EcoService(0, "Super Eco", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord1,
+//				ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es2 = new EcoService(0, "Recycle Hero", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
+//				cord2, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es3 = new EcoService(0, "Plastic Eliminator", new HashSet<WasteType>(List.of(WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
+//				cord3, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es4 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
+//				cord4, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es5 = new EcoService(0, "Eco Station I", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord5,
+//				"desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es6 = new EcoService(0, "Metal man", new HashSet<WasteType>(List.of(WasteType.METALS)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN,
+//						DeliveryOption.TRUCK)), cord6, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es7 = new EcoService(0, "Make clean, not waste!", new HashSet<WasteType>(List.of(WasteType.PAPER)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)),
+//				cord7, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es8 = new EcoService(0, "ReMetalizer", new HashSet<WasteType>(List.of(WasteType.METALS)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD, PaymentCondition.CASH)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF,
+//						DeliveryOption.TRUCK)), cord8, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es9 = new EcoService(0, "Eco Station II", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord9,
+//				"desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es10 = new EcoService(0, "All glass melts fast", new HashSet<WasteType>(List.of(WasteType.GLASS)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
+//				cord10, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es11 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)),
+//				cord11, "desc", BigDecimal.ZERO, BigDecimal.ZERO);
+//		EcoService es12 = new EcoService(0, "Eco Station III", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
+//				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord12,
+//				"desc", BigDecimal.ZERO, BigDecimal.ZERO);
 
 		
 		ecoServiceRepository.save(es1);
-		ecoServiceRepository.save(es2);
-		ecoServiceRepository.save(es3);
-		ecoServiceRepository.save(es4);
-		ecoServiceRepository.save(es5);
-		ecoServiceRepository.save(es6);
-		ecoServiceRepository.save(es7);
-		ecoServiceRepository.save(es8);
-		ecoServiceRepository.save(es9);
-		ecoServiceRepository.save(es10);
-		ecoServiceRepository.save(es11);
-		ecoServiceRepository.save(es12);
+//		ecoServiceRepository.save(es2);
+//		ecoServiceRepository.save(es3);
+//		ecoServiceRepository.save(es4);
+//		ecoServiceRepository.save(es5);
+//		ecoServiceRepository.save(es6);
+//		ecoServiceRepository.save(es7);
+//		ecoServiceRepository.save(es8);
+//		ecoServiceRepository.save(es9);
+//		ecoServiceRepository.save(es10);
+//		ecoServiceRepository.save(es11);
+//		ecoServiceRepository.save(es12);
 	}
 
 }
