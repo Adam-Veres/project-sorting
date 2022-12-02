@@ -1,5 +1,6 @@
 package com.epam.dto;
 
+import com.epam.model.EcoService;
 import com.epam.security.EcoUserRole;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,7 +9,11 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Setter
 @Getter

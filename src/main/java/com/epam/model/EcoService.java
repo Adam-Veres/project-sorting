@@ -2,15 +2,9 @@ package com.epam.model;
 
 import java.util.Set;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +30,12 @@ public class EcoService {
 	@ElementCollection(targetClass = DeliveryOption.class, fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private Set<DeliveryOption> deliveryOptions;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Coordinate coordinate;
+
+	@JsonBackReference
+	@ManyToOne(optional=false, fetch=FetchType.LAZY)
+	@JoinColumn(nullable = false)
+	private EcoUser owner;
 	
 }
