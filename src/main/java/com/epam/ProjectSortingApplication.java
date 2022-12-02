@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -51,9 +53,20 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		Coordinate cord11 = coordinateRepository.save(new Coordinate(0, BigDecimal.valueOf(50.522655), BigDecimal.valueOf(30.614825)));
 		Coordinate cord12 = coordinateRepository.save(new Coordinate(0, BigDecimal.valueOf(50.527612), BigDecimal.valueOf(30.601459)));
 		
+		JSONArray ja = new JSONArray();
+		ja.put("You can find delivery and disposal pricing information here!");
+		JSONObject jo_delivey = new JSONObject();
+		jo_delivey.put("Delivery priceing", "");
+		jo_delivey.put("Self", "free");
+		JSONObject jo_waste = new JSONObject();
+		jo_waste.put("Glass", "free");
+		jo_waste.put("Paper", "0.05 EUR/kg");
+		ja.put(jo_delivey);
+		ja.put(jo_waste);
+		
 		EcoService es1 = new EcoService(0, "Super Eco", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord1,
-				"desc", BigDecimal.ZERO, BigDecimal.ZERO);
+				ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO);
 		EcoService es2 = new EcoService(0, "Recycle Hero", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
 				cord2, "desc", BigDecimal.ZERO, BigDecimal.ZERO);

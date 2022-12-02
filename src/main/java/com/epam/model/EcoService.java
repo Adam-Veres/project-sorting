@@ -77,7 +77,8 @@ public class EcoService {
 	}
 	
 	private void countRating() {
-		if(this.sumOfRatings != null && this.numOfRatings != null && !numOfRatings.equals(BigDecimal.ZERO)) {
+		System.out.println("Count rating");
+		if(this.sumOfRatings != null && this.numOfRatings != null && (this.numOfRatings.compareTo(BigDecimal.ZERO) != 0)) {
 			this.rating =  this.sumOfRatings.divide(this.numOfRatings, new MathContext(2, RoundingMode.HALF_UP));
 		} else {
 			this.rating = BigDecimal.ZERO;
