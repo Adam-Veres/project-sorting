@@ -6,6 +6,12 @@ import java.math.RoundingMode;
 import java.util.Optional;
 import java.util.Set;
 
+
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,6 +23,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import lombok.AccessLevel;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,7 +47,7 @@ public class EcoService {
 	@ElementCollection(targetClass = DeliveryOption.class, fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private Set<DeliveryOption> deliveryOptions;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Coordinate coordinate;
 	private String description;
 	@Setter(value = AccessLevel.NONE)
@@ -51,6 +58,11 @@ public class EcoService {
 	@Getter(value = AccessLevel.NONE)
 	@Transient
 	private BigDecimal rating;
+
+	@JsonBackReference
+	@ManyToOne(optional=false, fetch=FetchType.LAZY)
+	@JoinColumn(nullable = false)
+	private EcoUser owner;
 	
 	public EcoService(long id, String serviceName, Set<WasteType> typeOfWastes, Set<PaymentCondition> paymentConditions,
 			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings) {
