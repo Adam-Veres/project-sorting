@@ -2,6 +2,7 @@ package com.epam.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,6 @@ public interface EcoServiceRepository extends JpaRepository<EcoService, Long>{
 	public List<EcoService> findAll(Specification<EcoService> spec);
 
 	int deleteByOwner_UsernameAndId(String userName, long id);
+
+	Optional<EcoService> findByOwner_UsernameAndId(String userName, Long aLong);
 }

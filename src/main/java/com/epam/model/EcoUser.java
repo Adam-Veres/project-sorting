@@ -2,9 +2,7 @@ package com.epam.model;
 
 import com.epam.security.EcoUserRole;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +11,9 @@ import java.util.List;
 @Table
 @Setter
 @Getter
+@Builder(setterPrefix = "with")
 @NoArgsConstructor
+@AllArgsConstructor
 public class EcoUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

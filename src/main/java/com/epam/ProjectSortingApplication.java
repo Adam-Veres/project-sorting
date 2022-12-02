@@ -51,10 +51,10 @@ public class ProjectSortingApplication implements CommandLineRunner {
 	}
 
 	private void initUsersDb() {
-		EcoUserBuilder userTemplate = EcoUserBuilder.anEcoUser()
+		EcoUser.EcoUserBuilder userTemplate = EcoUser.builder()
 				.withPassword(passwordEncoder.encode("123456789"))
 				.withUserRole(EcoUserRole.USER);
-		EcoUserBuilder serviceTemplate = EcoUserBuilder.anEcoUser()
+		EcoUser.EcoUserBuilder serviceTemplate = EcoUser.builder()
 				.withPassword(passwordEncoder.encode("123456789"))
 				.withUserRole(EcoUserRole.SERVICE);
 		LinkedList<EcoUser> users = new LinkedList<>();

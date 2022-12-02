@@ -5,16 +5,14 @@ import com.epam.mapper.EcoServiceMapper;
 import com.epam.security.Authority;
 import com.epam.service.ProtectedZoneService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +27,7 @@ public class ProtectedZoneController {
 	 */
     @PreAuthorize(Authority.HAS_SERVICE_AUTHORITY)
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteEcoService(@PathVariable long id) {
+    public ResponseEntity<String> deleteEcoService(@PathVariable final long id) {
     	if(protectedZoneService.deleteEcoServiceAuthorized(id) != 0) {
     		return ResponseEntity.ok("Eco Service deleted!");
     	}
@@ -43,7 +41,7 @@ public class ProtectedZoneController {
 	 */
     @PreAuthorize(Authority.HAS_SERVICE_AUTHORITY)
     @PostMapping
-    public EcoServiceDto createEcoService(@RequestBody @Valid EcoServiceDto ecoServiceDto) {
+    public EcoServiceDto createEcoService(@RequestBody @Valid final EcoServiceDto ecoServiceDto) {
       return ecoServiceMapper.ecoServiceToEcoServiceDto(
                 protectedZoneService.createNewEcoServiceAuthorized(
                     ecoServiceMapper.ecoServiceDtoToEcoService(ecoServiceDto)));
@@ -57,7 +55,7 @@ public class ProtectedZoneController {
 	 */
     @PreAuthorize(Authority.HAS_SERVICE_AUTHORITY)
     @PutMapping(path = "/{id}")
-    public EcoServiceDto updateEcoService( @RequestBody @Valid EcoServiceDto ecoServiceDto, @PathVariable long id) {
+    public EcoServiceDto updateEcoService( @RequestBody @Valid final EcoServiceDto ecoServiceDto, @PathVariable final long id) {
       return ecoServiceMapper.ecoServiceToEcoServiceDto(
                 protectedZoneService.updateEcoServiceAuthorized(
                         ecoServiceMapper.ecoServiceDtoToEcoService(ecoServiceDto), id));
@@ -70,12 +68,9 @@ public class ProtectedZoneController {
 	 * @param id
 	 * @return the whole service with updated rating
 	 */
+	@PreAuthorize(Authority.HAS_USER_AUTHORITY)
 	@PutMapping(path = "/{rating}/{id}")
-	public EcoServiceDto addRatingToEcoService(@PathVariable Double rating, @PathVariable Long id) {
-		EcoServiceDto ecoService = ecoServiceMapper.ecoServiceToEcoServiceDto(protectedZoneService.addRatingToEcoService(Optional.of(rating), Optional.of(id)));
-		if(ecoService != null) {
-			return ecoService;
-		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!");
+	public EcoServiceDto addRatingToEcoService(@PathVariable @Valid @Min(0) @Max(5) final double rating, @PathVariable final long id) {
+		return ecoServiceMapper.ecoServiceToEcoServiceDto(protectedZoneService.addRatingToEcoService(rating, id));
 	}
 }

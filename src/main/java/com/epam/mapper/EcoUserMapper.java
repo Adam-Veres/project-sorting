@@ -16,6 +16,6 @@ public interface EcoUserMapper {
     @Mapping(target = "password", constant = "***")
     EcoUserDTO ecoUserToEcoUserDto(EcoUser ecoUser);
 
-    @Mapping(target = "password", qualifiedBy = EncodedMapping.class)
+    @Mapping(source = "password", target = "withPassword", qualifiedBy = EncodedMapping.class)
     EcoUser ecoUserDtoToEcoUser(EcoUserDTO userDto);
 }

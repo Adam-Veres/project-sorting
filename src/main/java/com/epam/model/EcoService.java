@@ -1,31 +1,16 @@
 package com.epam.model;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.Optional;
-import java.util.Set;
-
-
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
-
 import lombok.AccessLevel;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -77,8 +62,8 @@ public class EcoService {
 		this.owner = owner;
 	}
 	
-	public void addRating(Optional<BigDecimal> rating) {
-		BigDecimal rate = rating.orElseThrow(() -> new IllegalArgumentException("Rating do not be null!"));
+	public void addRating(double rating) {
+		BigDecimal rate = BigDecimal.valueOf(rating);
 		if(this.sumOfRatings == null) {
 			this.sumOfRatings = rate;
 			this.numOfRatings = BigDecimal.ONE;

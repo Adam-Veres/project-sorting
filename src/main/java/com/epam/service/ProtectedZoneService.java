@@ -13,9 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-
-import java.math.BigDecimal;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -23,15 +20,7 @@ import java.util.Set;
 public class ProtectedZoneService {
 
   private final EcoUserRepository ecoUserRepository;
-  private final EcoUserMapper ecoUserMapper;
   private final EcoServiceRepository ecoServiceRepository;
-
-  @Transactional
-  public Set<Object> getUserInformation() {
-    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    final EcoUser ecoUser = ecoUserRepository.findByUsername(authentication.getName()).get();
-    return Set.of(authentication, ecoUserMapper.ecoUserToEcoUserDto(ecoUser));
-  }
 
   /**
 	 * If Service exists with given id, will delete it.
@@ -85,18 +74,14 @@ public class ProtectedZoneService {
 	 * @return the upgraded entity
 	 */
   @Transactional
-	public EcoService addRatingToEcoService(Optional<Double> rating, Optional<Long> id) {
-		Double rate = rating.orElseThrow(() -> new IllegalArgumentException("Rate can not be null!"));
-		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("ID can not be null!"));
-		if(rate < 0 || rate > 5) {
-			throw new IllegalArgumentException("Rate should be between 0 and 5!");
-		}
-		if(ecoServiceRepository.existsById(identifier)) {
-			EcoService existingEcoService = ecoServiceRepository.findById(identifier).get();
-			existingEcoService.addRating(Optional.of(BigDecimal.valueOf(rate)));
+	public EcoService addRatingToEcoService(double rating, long id) throws ResponseStatusException {
+	  final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	  EcoService existingEcoService = ecoServiceRepository.
+			  findByOwner_UsernameAndId(authentication.getName(),id).orElseThrow(
+					  () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!")
+			  );
+			existingEcoService.addRating(rating);
 			return ecoServiceRepository.save(existingEcoService);
-		}
-		return null;
 	}
   
 }
