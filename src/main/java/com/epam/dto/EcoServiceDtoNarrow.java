@@ -1,6 +1,6 @@
 package com.epam.dto;
 
-import com.epam.model.Coordinate;
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class EcoServiceDtoNarrow {
 
-	long id;
-	String serviceName;
-	Coordinate coordinate;
+	private long id;
+	private String serviceName;
+	private CoordinateDto coordinate;
+	private BigDecimal rating;
 	
 }
