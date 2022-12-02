@@ -72,7 +72,7 @@ public class ProtectedZoneService {
 			existingEcoService.setTypeOfWastes(es.getTypeOfWastes());
 			existingEcoService.setServiceName(es.getServiceName());
 			existingEcoService.setDescription(es.getDescription());
-			existingEcoService.setCoordinate(es.getCoordinate());//coordinateService.getExistingCoordinateOrCreateNew(Optional.of(es.getCoordinate())));
+			existingEcoService.setCoordinate(es.getCoordinate());
 			return ecoServiceRepository.save(existingEcoService);
 		}
     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!");

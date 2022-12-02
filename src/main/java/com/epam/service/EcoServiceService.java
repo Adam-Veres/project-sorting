@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -22,9 +20,6 @@ public class EcoServiceService {
 	
 	@Autowired
 	EcoServiceRepository ecoServiceRepository;
-	
-	@Autowired
-	CoordinateService coordinateService;
 	
 	public List<EcoService> getAllEcoService(){
 		return ecoServiceRepository.findAll();

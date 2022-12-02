@@ -46,7 +46,7 @@ public class EcoService {
 	@ElementCollection(targetClass = DeliveryOption.class, fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private Set<DeliveryOption> deliveryOptions;
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Coordinate coordinate;
 	private String description;
 	@Setter(value = AccessLevel.NONE)
@@ -89,7 +89,6 @@ public class EcoService {
 	}
 	
 	private void countRating() {
-		System.out.println("Count rating");
 		if(this.sumOfRatings != null && this.numOfRatings != null && (this.numOfRatings.compareTo(BigDecimal.ZERO) != 0)) {
 			this.rating =  this.sumOfRatings.divide(this.numOfRatings, new MathContext(2, RoundingMode.HALF_UP));
 		} else {
