@@ -100,7 +100,9 @@ public class EcoServiceService {
 	 */
 	public Optional<EcoService> getServiceById(Optional<Long> id) {
 		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("Given ID is not a valid format!"));
-		return ecoServiceRepository.findById(identifier);
+		EcoService es = ecoServiceRepository.findById(identifier).get();
+		System.out.println(es.getRating());
+		return Optional.of(es);
 	}
 
 	/**
@@ -147,7 +149,28 @@ public class EcoServiceService {
 			existingEcoService.setPaymentConditions(es.getPaymentConditions());
 			existingEcoService.setTypeOfWastes(es.getTypeOfWastes());
 			existingEcoService.setServiceName(es.getServiceName());
+			existingEcoService.setDescription(es.getDescription());
 			existingEcoService.setCoordinate(coordinateService.getExistingCoordinateOrCreateNew(Optional.of(es.getCoordinate())));
+			return ecoServiceRepository.save(existingEcoService);
+		}
+		return null;
+	}
+
+	/**
+	 * Add a rating to the service
+	 * @param rating
+	 * @param id
+	 * @return the upgraded entity
+	 */
+	public EcoService addRatingToEcoService(Optional<Double> rating, Optional<Long> id) {
+		Double rate = rating.orElseThrow(() -> new IllegalArgumentException("Rate can not be null!"));
+		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("ID can not be null!"));
+		if(rate < 0 || rate > 5) {
+			throw new IllegalArgumentException("Rate should be between 0 and 5!");
+		}
+		if(ecoServiceRepository.existsById(identifier)) {
+			EcoService existingEcoService = ecoServiceRepository.findById(identifier).get();
+			existingEcoService.addRating(Optional.of(BigDecimal.valueOf(rate)));
 			return ecoServiceRepository.save(existingEcoService);
 		}
 		return null;

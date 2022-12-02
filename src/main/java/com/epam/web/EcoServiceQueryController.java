@@ -4,15 +4,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +23,7 @@ import com.epam.service.EcoServiceService;
 
 @RestController
 @RequestMapping("/api/ecoservice")
-public class EcoServiceController {
+public class EcoServiceQueryController {
 
 	@Autowired
 	EcoServiceService ecoServiceService;
@@ -100,49 +96,6 @@ public class EcoServiceController {
 			return ecoServices;
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No EcoServices in Database!");
-	}
-	
-	/**
-	 * Delete Eco Service from DB
-	 * @param id of Eco Service for deletion
-	 */
-	@DeleteMapping(path = "/manage/{id}")
-	public void deleteEcoService(@PathVariable Long id) {
-		if(ecoServiceService.deleteEcoService(Optional.of(id))) {
-			throw new ResponseStatusException(HttpStatus.OK, "Eco Service deleted!");
-		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!");
-	}
-	
-	/**
-	 * Add new Eco Service to DB
-	 * @param ecoServiceDto Eco Service what you want to add database
-	 * @return the DTO representation of saved entity
-	 */
-	@PostMapping(path = "/manage")
-	public EcoServiceDto createEcoService(@RequestBody @Valid EcoServiceDto ecoServiceDto) {
-		EcoServiceDto ecoService = ecoServiceMapper.ecoServiceToEcoServiceDto(ecoServiceService.createNewEcoService(
-				Optional.of(ecoServiceMapper.ecoServiceDtoToEcoService(ecoServiceDto))));
-		if(ecoService != null) {
-			return ecoService;
-		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!");
-	}
-	
-	/**
-	 * Modify existing Eco Service
-	 * @param ecoServiceDto new datas of service, add unmodified fields too
-	 * @param id of modified Eco Service
-	 * @return the DTO representation of modified entity
-	 */
-	@PutMapping(path = "/manage/{id}")
-	public EcoServiceDto updateEcoService(@RequestBody @Valid EcoServiceDto ecoServiceDto, @PathVariable Long id) {
-		EcoServiceDto ecoService = ecoServiceMapper.ecoServiceToEcoServiceDto(ecoServiceService.updateEcoService(
-				Optional.of(ecoServiceMapper.ecoServiceDtoToEcoService(ecoServiceDto)), Optional.of(id)));
-		if(ecoService != null) {
-			return ecoService;
-		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!");
 	}
 	
 }
