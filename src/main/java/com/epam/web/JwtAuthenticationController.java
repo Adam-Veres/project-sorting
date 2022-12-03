@@ -1,14 +1,8 @@
 package com.epam.web;
 
 import com.epam.dto.EcoUserDTO;
-import com.epam.model.JwtRequest;
-import com.epam.model.JwtResponse;
-import com.epam.service.JwtEcoUserDetailsService;
-import com.epam.service.JwtEcoUserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -18,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
+import com.epam.service.JwtEcoUserDetailsService;
+import com.epam.service.JwtEcoUserService;
+import com.epam.service.JwtEcoUserService;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -69,15 +66,13 @@ public class JwtAuthenticationController {
     return new ResponseEntity<>(new ResponseMessage(e), HttpStatus.UNAUTHORIZED);
   }
 
-  @ExceptionHandler(BindException.class)
-  public ResponseEntity<?> handleMethodArgumentNotValidException(final BindException e) {
-    return new ResponseEntity<>(new ResponseMessage(e), HttpStatus.UNAUTHORIZED);
-  }
+	@ExceptionHandler(BindException.class)
+	public ResponseEntity<?> handleMethodArgumentNotValidException(final BindException e) {
+		return new ResponseEntity<>(new ResponseMessage(e), HttpStatus.UNAUTHORIZED);
+	}
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<?> handleException(final Exception e) {
-    final Log logger = LogFactory.getLog(this.getClass());
-    logger.error(e);
-    return new ResponseEntity<>(new ResponseMessage("COMMON_ERROR"), HttpStatus.UNAUTHORIZED);
-  }
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> handleException(final Exception e) {
+		return new ResponseEntity<>(new ResponseMessage("COMMON_ERROR"), HttpStatus.UNAUTHORIZED);
+	}
 }
