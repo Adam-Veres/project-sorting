@@ -31,6 +31,7 @@ public class EcoUser {
 	private String email;
 
 	@Column
+	@Enumerated(EnumType.STRING)
 	private EcoUserRole userRole;
 
 	@Column
