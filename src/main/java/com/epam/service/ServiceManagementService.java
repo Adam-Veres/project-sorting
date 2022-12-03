@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class ProtectedZoneService {
+public class ServiceManagementService {
 
   private final EcoUserRepository ecoUserRepository;
   private final EcoServiceRepository ecoServiceRepository;

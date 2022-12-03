@@ -12,7 +12,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/auth/")
 @RequiredArgsConstructor
 public class JwtAuthenticationController {
