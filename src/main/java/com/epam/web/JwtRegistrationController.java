@@ -2,7 +2,8 @@ package com.epam.web;
 
 import com.epam.dto.EcoUserDTO;
 import com.epam.dto.JwtControllersResponseMessage;
-import com.epam.service.JwtEcoUserDetailsService;
+import com.epam.dto.JwtTockenResponse;
+import com.epam.service.JwtEcoUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,15 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class JwtRegistrationController {
 
-    private final JwtEcoUserDetailsService jwtEcoUserDetailsService;
+    private final JwtEcoUserService jwtEcoUserService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@Valid @RequestBody final EcoUserDTO user) throws Exception {
-        jwtEcoUserDetailsService.save(user);
-        return ResponseEntity.ok(new JwtControllersResponseMessage("Ok"));
+    public ResponseEntity<?> saveUser(@Valid @RequestBody final EcoUserDTO user) {
+        jwtEcoUserService.save(user);
+        return ResponseEntity.ok(
+                new JwtTockenResponse(
+                        jwtEcoUserService.getToken(
+                                user.getUsername(), user.getPassword())));
     }
 
     @ExceptionHandler(AuthenticationException.class)
