@@ -1,4 +1,4 @@
-package com.epam.model;
+package com.epam.dto;
 
 import lombok.Getter;
 
@@ -7,13 +7,13 @@ import java.io.Serializable;
 
 
 @Getter
-public class JwtResponse implements Serializable {
+public class JwtTockenResponse implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = -8091879091924046844L;
 	private final String jwtToken;
 
-	public JwtResponse(String jwtToken) {
+	public JwtTockenResponse(String jwtToken) {
 		this.jwtToken = jwtToken;
 	}
 }

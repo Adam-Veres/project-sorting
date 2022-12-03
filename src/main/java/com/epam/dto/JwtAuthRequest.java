@@ -1,4 +1,4 @@
-package com.epam.model;
+package com.epam.dto;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtRequest implements Serializable {
+public class JwtAuthRequest implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 5926468583005150707L;

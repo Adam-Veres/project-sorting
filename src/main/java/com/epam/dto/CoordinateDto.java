@@ -16,12 +16,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CoordinateDto {
 
-	long id;
+	private long id;
 	@Min(value = -180)
 	@Max(value = 180)
-	BigDecimal latitude;
+	private BigDecimal latitude;
 	@Min(value = -180)
 	@Max(value = 180)
-	BigDecimal longitude;
+	private BigDecimal longitude;
 	
 }

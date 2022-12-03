@@ -1,11 +1,17 @@
 package com.epam.web;
 
+
 import com.epam.dto.EcoUserDTO;
 import com.epam.model.JwtRequest;
 import com.epam.model.JwtResponse;
 import com.epam.service.JwtEcoUserDetailsService;
 import com.epam.service.JwtEcoUserService;
 import lombok.Getter;
+import com.epam.config.JwtTokenUtil;
+import com.epam.dto.JwtAuthRequest;
+import com.epam.dto.JwtControllersResponseMessage;
+import com.epam.dto.JwtTockenResponse;
+import com.epam.service.JwtEcoUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,14 +21,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 @RestController
-@CrossOrigin
 @RequestMapping("/api/auth/")
 @RequiredArgsConstructor
 public class JwtAuthenticationController {
