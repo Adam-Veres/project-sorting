@@ -8,10 +8,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -21,19 +26,19 @@ public class JwtTokenUtil implements Serializable {
 
 	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-	private final String secret=getRandomString();
+	private final byte[] secret=getRandomSecret();
 
-	private static String getRandomString(){
-		final int leftLimit = 97; // letter 'a'
-		final int rightLimit = 122; // letter 'z'
+	private static byte[] getRandomSecret(){
+		final byte leftLimit = 97; // letter 'a'
+		final byte rightLimit = 122; // letter 'z'
 		final int targetStringLength = 15;
+		byte[] data = new byte[targetStringLength];
 		final Random random = new Random();
-		final StringBuilder buffer = new StringBuilder(targetStringLength);
 		for (int i = 0; i < targetStringLength; i++) {
-			int randomLimitedInt = leftLimit + (int)(random.nextFloat() * (rightLimit - leftLimit + 1));
-			buffer.append((char) randomLimitedInt);
+			byte randomLimitedInt = (byte) (leftLimit + (byte)(random.nextFloat() * (rightLimit - leftLimit + 1)));
+			data[i]=randomLimitedInt;
 		}
-		return buffer.toString();
+		return data;
 	}
 
 	//retrieve username from jwt token
