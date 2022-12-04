@@ -15,6 +15,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class JwtEcoUserService {
@@ -26,8 +29,6 @@ public class JwtEcoUserService {
     private final JwtTokenUtil jwtTokenUtil;
 
     private final EcoUserRepository ecoUserRepository;
-
-    private final JwtEcoUserDetailsService jwtEcoUserDetailsService;
 
     public void authenticate(final String username, final String password) {
         try {
@@ -50,7 +51,10 @@ public class JwtEcoUserService {
 
     public String getToken(String userName, String password){
         authenticate(userName, password);
-        final UserDetails userDetails = jwtEcoUserDetailsService.loadUserByUsername(userName);
-        return jwtTokenUtil.generateToken(userDetails);
+        final Map<String, Object> claims = new HashMap<>();
+        ecoUserRepository.findByUsername(userName).ifPresent(
+                ecoUser -> claims.put("role",ecoUser.getUserRole())
+        );
+        return jwtTokenUtil.generateToken(claims,userName);
     }
 }
