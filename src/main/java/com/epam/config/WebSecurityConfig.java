@@ -1,11 +1,9 @@
 package com.epam.config;
 
-import com.epam.security.Authority;
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -57,16 +55,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf().disable()
 				//.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
 				.cors().and()
-				// authenticate this particular request
-//				.authorizeRequests()
-//				//.antMatchers("/api/protected/*").authenticated()
-//				.antMatchers("/api/ecoservice/manage/**").hasAuthority(Authority.HAS_SERVICE_AUTHORITY)
-//				.antMatchers("/api/ecoservice/rating/**").hasAuthority(Authority.HAS_USER_AUTHORITY)
-//				.antMatchers(HttpMethod.PUT, "/api/ecoservice/manage/**").hasAuthority(null)
-//				.antMatchers(HttpMethod.POST, "/api/ecoservice/manage/**").hasAuthority(null)
-//				 //all other requests don't need to be authenticated
-//				.anyRequest().permitAll()
-//				.and()
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
 				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()

@@ -40,7 +40,7 @@ public class JwtEcoUserService {
         }
     }
 
-    public EcoUser save(EcoUserDTO userDto) throws AuthenticationException {
+    public EcoUser save(final EcoUserDTO userDto) throws AuthenticationException {
         final EcoUser newUser = ecoUserMapper.ecoUserDtoToEcoUser(userDto);
         try {
             return ecoUserRepository.save(newUser);

@@ -19,8 +19,8 @@ public class JwtEcoUserDetailsService implements UserDetailsService {
 	private final EcoUserRepository ecoUserRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String s) throws AuthenticationException {
-		EcoUser user = ecoUserRepository.findByUsername(s).orElseThrow(
+	public UserDetails loadUserByUsername(final String username) throws AuthenticationException {
+		final EcoUser user = ecoUserRepository.findByUsername(username).orElseThrow(
 				()->new UsernameNotFoundException("USER_DOES_NOT_EXIST")
 		);
 		return SecurityUser.fromEcoUser(user);

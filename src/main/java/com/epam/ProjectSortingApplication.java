@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 import com.epam.model.*;
 import com.epam.repository.EcoUserRepository;
 import com.epam.security.EcoUserRole;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +21,17 @@ import com.epam.repository.CoordinateRepository;
 import com.epam.repository.EcoServiceRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
+@RequiredArgsConstructor
 @SpringBootApplication
 public class ProjectSortingApplication implements CommandLineRunner {
 
-	@Autowired
-	EcoServiceRepository ecoServiceRepository;
-	
-	@Autowired
-	CoordinateRepository coordinateRepository;
+	private final EcoServiceRepository ecoServiceRepository;
 
-	@Autowired
-	EcoUserRepository ecoUserRepository;
+	private final CoordinateRepository coordinateRepository;
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
+	private final EcoUserRepository ecoUserRepository;
+
+	private final PasswordEncoder passwordEncoder;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectSortingApplication.class, args);
