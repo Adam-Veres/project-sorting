@@ -1,10 +1,9 @@
 package com.epam.config;
 
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -52,15 +51,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// We don't need CSRF ---> I think need and can do it
 		httpSecurity
 				.csrf().disable()
-				//.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
 				.cors().and()
 				// authenticate this particular request
 				.authorizeRequests()
 				// all other requests don't need to be authenticated
 				.antMatchers("/api/protected/*").authenticated().anyRequest().permitAll()
-//				.antMatchers(HttpMethod.DELETE, "/api/ecoservice/manage/**").hasAuthority(null)
-//				.antMatchers(HttpMethod.PUT, "/api/ecoservice/manage/**").hasAuthority(null)
-//				.antMatchers(HttpMethod.POST, "/api/ecoservice/manage/**").hasAuthority(null)
 				.and()
 				// make sure we use stateless session; session won't be used to
 				// store user's state.

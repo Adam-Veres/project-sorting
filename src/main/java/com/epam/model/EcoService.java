@@ -47,7 +47,7 @@ public class EcoService {
 	@ElementCollection(targetClass = DeliveryOption.class, fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private Set<DeliveryOption> deliveryOptions;
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Coordinate coordinate;
 	private String description;
 	@Setter(value = AccessLevel.NONE)
@@ -65,7 +65,7 @@ public class EcoService {
 	private EcoUser owner;
 	
 	public EcoService(long id, String serviceName, Set<WasteType> typeOfWastes, Set<PaymentCondition> paymentConditions,
-			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings) {
+			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings, EcoUser owner) {
 		this.id = id;
 		this.serviceName = serviceName;
 		this.typeOfWastes = typeOfWastes;
@@ -75,6 +75,7 @@ public class EcoService {
 		this.description = description;
 		this.numOfRatings = numOfRatings;
 		this.sumOfRatings = sumOfRatings;
+		this.owner = owner;
 	}
 	
 	public void addRating(Optional<BigDecimal> rating) {
