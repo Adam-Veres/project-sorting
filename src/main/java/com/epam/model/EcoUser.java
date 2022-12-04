@@ -11,9 +11,10 @@ import java.util.List;
 @Table
 @Setter
 @Getter
-@Builder(setterPrefix = "with")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class EcoUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

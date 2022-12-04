@@ -1,4 +1,4 @@
-package com.epam.security;
+package com.epam.mapper;
 
 import org.mapstruct.Qualifier;
 

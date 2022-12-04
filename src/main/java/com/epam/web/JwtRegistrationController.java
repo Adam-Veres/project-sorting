@@ -31,6 +31,7 @@ public class JwtRegistrationController {
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<?> handleAuthenticationExceptionException(final AuthenticationException e) {
+        System.out.println(e);
         return new ResponseEntity<>(new JwtControllersResponseMessage(e), HttpStatus.UNAUTHORIZED);
     }
 

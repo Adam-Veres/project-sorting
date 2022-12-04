@@ -52,14 +52,14 @@ public class ProjectSortingApplication implements CommandLineRunner {
 
 	private void initUsersDb() {
 		EcoUser.EcoUserBuilder userTemplate = EcoUser.builder()
-				.withPassword(passwordEncoder.encode("123456789"))
-				.withUserRole(EcoUserRole.USER);
+				.password(passwordEncoder.encode("123456789"))
+				.userRole(EcoUserRole.USER);
 		EcoUser.EcoUserBuilder serviceTemplate = EcoUser.builder()
-				.withPassword(passwordEncoder.encode("123456789"))
-				.withUserRole(EcoUserRole.SERVICE);
+				.password(passwordEncoder.encode("123456789"))
+				.userRole(EcoUserRole.SERVICE);
 		LinkedList<EcoUser> users = new LinkedList<>();
-		IntStream.rangeClosed(1,5).forEach(i->users.add(serviceTemplate.withUsername("service"+i).withEmail("service"+i+"@service.com").build()));
-		IntStream.rangeClosed(1,5).forEach(i->users.add(userTemplate.withUsername("user"+i).withEmail("user"+i+"@user.com").build()));
+		IntStream.rangeClosed(1,5).forEach(i->users.add(serviceTemplate.username("service"+i).email("service"+i+"@service.com").build()));
+		IntStream.rangeClosed(1,5).forEach(i->users.add(userTemplate.username("user"+i).email("user"+i+"@user.com").build()));
 		ecoUserRepository.saveAll(users);
 	}
 

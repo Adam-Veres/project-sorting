@@ -1,4 +1,4 @@
-package com.epam.security;
+package com.epam.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
