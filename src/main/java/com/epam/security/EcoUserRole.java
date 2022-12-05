@@ -27,7 +27,8 @@ public enum EcoUserRole {
     public Set<SimpleGrantedAuthority> getAuthorities(){
         return authorities
                 .stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getAuthority()))
+                .map(Authority::getAuthority)
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }
 }
