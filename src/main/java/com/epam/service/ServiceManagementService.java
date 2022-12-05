@@ -1,8 +1,6 @@
 package com.epam.service;
 
-import com.epam.mapper.EcoUserMapper;
 import com.epam.model.EcoService;
-import com.epam.model.EcoUser;
 import com.epam.repository.EcoServiceRepository;
 import com.epam.repository.EcoUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +52,9 @@ public class ServiceManagementService {
   public EcoService updateEcoServiceAuthorized(final EcoService es, final long id) {
 	  final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	  if(ecoServiceRepository.existsById(id)) {
-			EcoService existingEcoService = ecoServiceRepository.findById(id).get();
+			EcoService existingEcoService = ecoServiceRepository.findByOwner_UsernameAndId(authentication.getName(),id).orElseThrow(
+					  () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!")
+					  );
 			existingEcoService.setDeliveryOptions(es.getDeliveryOptions());
 			existingEcoService.setPaymentConditions(es.getPaymentConditions());
 			existingEcoService.setTypeOfWastes(es.getTypeOfWastes());
