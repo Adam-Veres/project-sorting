@@ -1,6 +1,8 @@
 package com.epam.service;
 
+import com.epam.mapper.EcoUserMapper;
 import com.epam.model.EcoService;
+import com.epam.model.EcoUser;
 import com.epam.repository.EcoServiceRepository;
 import com.epam.repository.EcoUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,14 +53,15 @@ public class ServiceManagementService {
   @Transactional
   public EcoService updateEcoServiceAuthorized(final EcoService es, final long id) {
 	  final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	  final EcoService existingEcoService = ecoServiceRepository.findByOwner_UsernameAndId(authentication.getName(), id).get();
-	  existingEcoService.setDeliveryOptions(es.getDeliveryOptions());
-	  existingEcoService.setPaymentConditions(es.getPaymentConditions());
-	  existingEcoService.setTypeOfWastes(es.getTypeOfWastes());
-	  existingEcoService.setServiceName(es.getServiceName());
-	  existingEcoService.setDescription(es.getDescription());
-	  existingEcoService.setCoordinate(es.getCoordinate());
-	  return ecoServiceRepository.save(existingEcoService);
+	  final EcoService existingEcoService = ecoServiceRepository.findByOwner_UsernameAndId(authentication.getName(), id)
+			  .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!"));
+			existingEcoService.setDeliveryOptions(es.getDeliveryOptions());
+			existingEcoService.setPaymentConditions(es.getPaymentConditions());
+			existingEcoService.setTypeOfWastes(es.getTypeOfWastes());
+			existingEcoService.setServiceName(es.getServiceName());
+			existingEcoService.setDescription(es.getDescription());
+			existingEcoService.setCoordinate(es.getCoordinate());
+			return ecoServiceRepository.save(existingEcoService);
   }
   
   /**

@@ -15,6 +15,7 @@ public interface EcoServiceMapper {
 	EcoServiceDto ecoServiceToEcoServiceDto(EcoService ecoService);
 	
 	@Mapping(ignore = true, target = "rating")
+	@Mapping(ignore = true, target = "owner")
 	EcoService ecoServiceDtoToEcoService(EcoServiceDto ecoServiceDto);
 
 	List<EcoServiceDto> ecoServiceListToEcoServiceListDto(List<EcoService> allEcoService);
@@ -22,9 +23,5 @@ public interface EcoServiceMapper {
 	EcoServiceDtoNarrow ecoServiceToEcoServiceDtoNarrow(EcoService ecoService);
 
 	List<EcoServiceDtoNarrow> ecoServiceListToEcoServiceListDtoNarrow(List<EcoService> serviceFromArea);
-	
-//	CoordinateDto coordinateToCoordinateDto(Coordinate coordinate);
-//	
-//	Coordinate coordinateDtoToCoordinate(CoordinateDto coordinateDto);
 	
 }

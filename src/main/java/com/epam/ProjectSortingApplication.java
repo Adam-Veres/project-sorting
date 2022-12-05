@@ -12,12 +12,10 @@ import com.epam.security.EcoUserRole;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.epam.repository.CoordinateRepository;
 import com.epam.repository.EcoServiceRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -26,8 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ProjectSortingApplication implements CommandLineRunner {
 
 	private final EcoServiceRepository ecoServiceRepository;
-
-	private final CoordinateRepository coordinateRepository;
 
 	private final EcoUserRepository ecoUserRepository;
 
