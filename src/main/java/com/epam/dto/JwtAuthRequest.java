@@ -1,9 +1,8 @@
 package com.epam.dto;
 
-import lombok.*;
-
 import java.io.Serial;
 import java.io.Serializable;
+import lombok.*;
 
 @Getter
 @Setter
@@ -11,10 +10,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class JwtAuthRequest implements Serializable {
 
-	@Serial
-	private static final long serialVersionUID = 5926468583005150707L;
+  @Serial private static final long serialVersionUID = 5926468583005150707L;
 
-	private String username;
-	private String password;
-
+  private String username;
+  private String password;
 }

@@ -2,10 +2,9 @@ package com.epam.model;
 
 import com.epam.security.EcoUserRole;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.*;
+import lombok.*;
 
 @Entity
 @Table
@@ -16,28 +15,25 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class EcoUser {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-	@Column(unique = true)
-	private String username;
+  @Column(unique = true)
+  private String username;
 
-	@Column
-	private String password;
+  @Column private String password;
 
-	@Column(unique = true)
-	private String email;
+  @Column(unique = true)
+  private String email;
 
-	@Column
-	@Enumerated(EnumType.STRING)
-	private EcoUserRole userRole;
+  @Column
+  @Enumerated(EnumType.STRING)
+  private EcoUserRole userRole;
 
-	@Column
-	private boolean locked=false;
+  @Column private boolean locked = false;
 
-	@JsonManagedReference
-	@OneToMany (mappedBy="owner", fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
-	private List<EcoService> services;
-
+  @JsonManagedReference
+  @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  private List<EcoService> services;
 }

@@ -6,15 +6,14 @@ import com.epam.model.EcoUser;
 import com.epam.repository.CoordinateRepository;
 import com.epam.repository.EcoServiceRepository;
 import com.epam.repository.EcoUserRepository;
+import java.util.Set;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.transaction.Transactional;
-import java.util.Set;
 
 // ************************************************************
 // WE DON'T NEED IT. IT JUST FOR TEMPORARY AND FOR SOME TESTS AND EXAMPLES
@@ -51,7 +50,7 @@ public class ProtectedZoneService {
 
   @Transactional
   public EcoService updateEcoServiceAuthorized(final EcoService newEcoService, final long id) {
-    if(deleteEcoServiceAuthorized(id) != 0){
+    if (deleteEcoServiceAuthorized(id) != 0) {
       return createNewEcoServiceAuthorized(newEcoService);
     }
     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!");

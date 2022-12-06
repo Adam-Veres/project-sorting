@@ -11,11 +11,11 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring", uses = PasswordEncoderMapper.class)
 public interface EcoUserMapper {
 
-    EcoUserMapper INSTANCE = Mappers.getMapper( EcoUserMapper.class );
+  EcoUserMapper INSTANCE = Mappers.getMapper(EcoUserMapper.class);
 
-    @Mapping(target = "password", constant = "***")
-    EcoUserDTO ecoUserToEcoUserDto(EcoUser ecoUser);
+  @Mapping(target = "password", constant = "***")
+  EcoUserDTO ecoUserToEcoUserDto(final EcoUser ecoUser);
 
-    @Mapping(target = "password", qualifiedBy = EncodedMapping.class)
-    EcoUser ecoUserDtoToEcoUser(EcoUserDTO userDto);
+  @Mapping(target = "password", qualifiedBy = EncodedMapping.class)
+  EcoUser ecoUserDtoToEcoUser(final EcoUserDTO userDto);
 }
