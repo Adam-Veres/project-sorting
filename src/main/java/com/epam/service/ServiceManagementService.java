@@ -1,8 +1,6 @@
 package com.epam.service;
 
-import com.epam.mapper.EcoUserMapper;
 import com.epam.model.EcoService;
-import com.epam.model.EcoUser;
 import com.epam.repository.EcoServiceRepository;
 import com.epam.repository.EcoUserRepository;
 import lombok.RequiredArgsConstructor;

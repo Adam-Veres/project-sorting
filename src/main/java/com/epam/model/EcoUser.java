@@ -2,10 +2,27 @@ package com.epam.model;
 
 import com.epam.security.EcoUserRole;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table
@@ -40,4 +57,7 @@ public class EcoUser {
 	@OneToMany (mappedBy="owner", fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	private List<EcoService> services;
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "creator")
+	private List<CommentMessage> comments;
 }

@@ -98,7 +98,6 @@ public class EcoServiceService {
 	public Optional<EcoService> getServiceById(Optional<Long> id) {
 		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("Given ID is not a valid format!"));
 		EcoService es = ecoServiceRepository.findById(identifier).get();
-		System.out.println(es.getRating());
 		return Optional.of(es);
 	}
 

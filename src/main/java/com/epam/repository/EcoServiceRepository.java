@@ -17,7 +17,7 @@ public interface EcoServiceRepository extends JpaRepository<EcoService, Long>{
 	List<EcoService> findAllByCoordinateBetweenBorders(BigDecimal startLatitude, BigDecimal stopLatitude, BigDecimal startLongitude, BigDecimal stopLongitude);
 
 	List<EcoService> findAll(Specification<EcoService> spec);
-
+	
 	int deleteByOwner_UsernameAndId(String userName, long id);
 
 	Optional<EcoService> findByOwner_UsernameAndId(String userName, Long aLong);
