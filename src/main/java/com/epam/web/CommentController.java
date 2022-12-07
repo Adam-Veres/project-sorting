@@ -26,8 +26,14 @@ public class CommentController {
 	private final CommentService commentService;
 	private final CommentMessageMapper commentMessageMapper;
 
-	@GetMapping("/{ecoServiceId}")
-	public List<CommentMessageDto> getAllMessagesForEcoService(@PathVariable final long ecoServiceId){
+  /**
+   * Anyone can get all comments about ecoServiceId
+   * @param ecoServiceId
+   * @return List<CommentMessageDto>
+   */
+  @GetMapping("/{ecoServiceId}")
+  public List<CommentMessageDto> getAllMessagesForEcoService(
+      @PathVariable final long ecoServiceId) {
 		return commentMessageMapper.commentMessageListToCommentMessageListDto(
 				commentService.getAllMessagesForEcoService(ecoServiceId));
 	}

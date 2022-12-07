@@ -23,5 +23,6 @@ public class CommentMessageDto {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime timeStamp;
 	private boolean isPersistent;
+	private boolean updated;
 	
 }
