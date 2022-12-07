@@ -9,4 +9,6 @@ spring:
     show-sql: true
     open-in-view: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+project:
+  old-comments-remove-minutes: 1440

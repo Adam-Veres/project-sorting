@@ -1,12 +1,25 @@
 package com.epam.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -48,8 +61,13 @@ public class EcoService {
 	@JoinColumn(nullable = false)
 	private EcoUser owner;
 	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "ecoService", fetch=FetchType.EAGER)
+	private Set<CommentMessage> comments;
+	
 	public EcoService(long id, String serviceName, Set<WasteType> typeOfWastes, Set<PaymentCondition> paymentConditions,
-			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings, EcoUser owner) {
+			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings,
+			EcoUser owner) {
 		this.id = id;
 		this.serviceName = serviceName;
 		this.typeOfWastes = typeOfWastes;
@@ -61,7 +79,7 @@ public class EcoService {
 		this.sumOfRatings = sumOfRatings;
 		this.owner = owner;
 	}
-	
+
 	public void addRating(double rating) {
 		BigDecimal rate = BigDecimal.valueOf(rating);
 		if(this.sumOfRatings == null) {
