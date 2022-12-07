@@ -1,8 +1,6 @@
 package com.epam.service;
 
-import com.epam.mapper.EcoUserMapper;
 import com.epam.model.EcoService;
-import com.epam.model.EcoUser;
 import com.epam.repository.EcoServiceRepository;
 import com.epam.repository.EcoUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -72,9 +70,8 @@ public class ServiceManagementService {
 	 */
   @Transactional
 	public EcoService addRatingToEcoService(double rating, long id) throws ResponseStatusException {
-	  final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	  EcoService existingEcoService = ecoServiceRepository.
-			  findByOwner_UsernameAndId(authentication.getName(),id).orElseThrow(
+			  findById(id).orElseThrow(
 					  () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!")
 			  );
 			existingEcoService.addRating(rating);
