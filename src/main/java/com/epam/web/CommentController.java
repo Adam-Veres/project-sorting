@@ -1,8 +1,12 @@
 package com.epam.web;
 
-import javax.validation.Valid;
-
+import com.epam.dto.CommentMessageDto;
+import com.epam.mapper.CommentMessageMapper;
+import com.epam.security.Authority;
+import com.epam.service.CommentService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,12 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.epam.dto.CommentMessageDto;
-import com.epam.mapper.CommentMessageMapper;
-import com.epam.security.Authority;
-import com.epam.service.CommentService;
-
-import lombok.AllArgsConstructor;
+import javax.validation.Valid;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -25,6 +25,12 @@ public class CommentController {
 
 	private final CommentService commentService;
 	private final CommentMessageMapper commentMessageMapper;
+
+	@GetMapping("/{ecoServiceId}")
+	public List<CommentMessageDto> getAllMessagesForEcoService(@PathVariable final long ecoServiceId){
+		return commentMessageMapper.commentMessageListToCommentMessageListDto(
+				commentService.getAllMessagesForEcoService(ecoServiceId));
+	}
 
 	/**
 	 * User can add a new comment to a EcoService

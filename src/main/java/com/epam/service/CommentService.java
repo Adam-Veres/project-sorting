@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -84,4 +85,8 @@ public class CommentService {
     actualMessage.updateContent(commentMessageDto.getContent());
     return commentMessageRepository.save(actualMessage);
   }
+
+    public List<CommentMessage> getAllMessagesForEcoService(long ecoServiceId) {
+      return commentMessageRepository.findAllByEcoService_Id(ecoServiceId);
+    }
 }

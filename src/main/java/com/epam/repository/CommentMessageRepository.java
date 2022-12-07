@@ -1,11 +1,14 @@
 package com.epam.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.epam.model.CommentMessage;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface CommentMessageRepository extends JpaRepository<CommentMessage, Long>{
@@ -16,4 +19,6 @@ public interface CommentMessageRepository extends JpaRepository<CommentMessage, 
 
     @Transactional
     int deleteAllByTimeStampBeforeAndPersistentIsFalse(LocalDateTime date);
+
+    List<CommentMessage> findAllByEcoService_Id(long id);
 }
