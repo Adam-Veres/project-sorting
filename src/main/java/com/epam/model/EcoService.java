@@ -2,16 +2,10 @@ package com.epam.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
@@ -26,6 +20,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -81,22 +79,23 @@ public class EcoService {
 		this.sumOfRatings = sumOfRatings;
 		this.owner = owner;
 	}
-	
-	public EcoService(long id, String serviceName, Set<WasteType> typeOfWastes, Set<PaymentCondition> paymentConditions,
-			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings,
-			EcoUser owner, Set<CommentMessage> comments) {
-		this.id = id;
-		this.serviceName = serviceName;
-		this.typeOfWastes = typeOfWastes;
-		this.paymentConditions = paymentConditions;
-		this.deliveryOptions = deliveryOptions;
-		this.coordinate = coordinate;
-		this.description = description;
-		this.numOfRatings = numOfRatings;
-		this.sumOfRatings = sumOfRatings;
-		this.owner = owner;
-		this.comments = comments;
-	}
+
+	//****** Why do we need it? ******/////////
+//	public EcoService(long id, String serviceName, Set<WasteType> typeOfWastes, Set<PaymentCondition> paymentConditions,
+//			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings,
+//			EcoUser owner, Set<CommentMessage> comments) {
+//		this.id = id;
+//		this.serviceName = serviceName;
+//		this.typeOfWastes = typeOfWastes;
+//		this.paymentConditions = paymentConditions;
+//		this.deliveryOptions = deliveryOptions;
+//		this.coordinate = coordinate;
+//		this.description = description;
+//		this.numOfRatings = numOfRatings;
+//		this.sumOfRatings = sumOfRatings;
+//		this.owner = owner;
+//		this.comments = comments;
+//	}
 	
 	public void addRating(double rating) {
 		BigDecimal rate = BigDecimal.valueOf(rating);

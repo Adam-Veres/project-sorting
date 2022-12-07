@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 import com.epam.model.*;
 import com.epam.repository.EcoUserRepository;
 import com.epam.security.EcoUserRole;
+import com.epam.service.OldCommentsRemover;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,6 +29,8 @@ public class ProjectSortingApplication implements CommandLineRunner {
 	private final EcoUserRepository ecoUserRepository;
 
 	private final PasswordEncoder passwordEncoder;
+
+	private final OldCommentsRemover oldCommentsRemover;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectSortingApplication.class, args);
@@ -35,6 +38,7 @@ public class ProjectSortingApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
+		oldCommentsRemover.run();
 		if(ecoUserRepository.findAll().isEmpty()){
 			initUsersDb();
 		}

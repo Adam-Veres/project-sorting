@@ -60,4 +60,17 @@ public class EcoUser {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "creator")
 	private List<CommentMessage> comments;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		EcoUser ecoUser = (EcoUser) o;
+		return id == ecoUser.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return (int) (id ^ (id >>> 32));
+	}
 }

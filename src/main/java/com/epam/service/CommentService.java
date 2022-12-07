@@ -1,85 +1,85 @@
 package com.epam.service;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
+import com.epam.dto.CommentMessageDto;
 import com.epam.model.CommentMessage;
 import com.epam.model.EcoService;
 import com.epam.model.EcoUser;
 import com.epam.repository.CommentMessageRepository;
 import com.epam.repository.EcoServiceRepository;
 import com.epam.repository.EcoUserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class CommentService {
 
-	@Autowired
-	CommentMessageRepository commentMessageRepository;
+  private final CommentMessageRepository commentMessageRepository;
 
-	@Autowired
-	EcoUserRepository ecoUserRepository;
-	
-	@Autowired
-	EcoServiceRepository ecoServiceREpository;
+  private final EcoUserRepository ecoUserRepository;
 
-	/**
-	 * User can add a new comment to a EcoService
-	 * @param commentMessageDto
-	 * @param ecoServiceId
-	 * @return CommentMessageDto
-	 */
-	@Transactional
-	public CommentMessage addNewCommentToEcoService(final CommentMessage commentMessage, final long ecoServiceId) {
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		EcoUser actualEcoUser = findEcoUser(authentication);
-		EcoService givenEcoService = findEcoService(ecoServiceId);
-		return commentMessageRepository.save(new CommentMessage(0, commentMessage.getContent(), LocalDateTime.now(), false, actualEcoUser, givenEcoService));
-	}
+  private final EcoServiceRepository ecoServiceRepository;
 
-	private EcoService findEcoService(final long ecoServiceId) {
-		Optional<EcoService> ecoservice = ecoServiceREpository.findById(ecoServiceId);
-		EcoService givenEcoService = ecoservice.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service does not exist eith this id!"));
-		return givenEcoService;
-	}
+  /**
+   * User can add a new comment to a EcoService
+   *
+   * @param commentMessage
+   * @param ecoServiceId
+   * @return CommentMessageDto
+   */
+  @Transactional
+  public CommentMessage addNewCommentToEcoService( final CommentMessage commentMessage, final long ecoServiceId) {
+    final EcoService ecoservice = ecoServiceRepository.findById(ecoServiceId).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Eco Service does not exist with this id!"));
+    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    EcoUser actualEcoUser = ecoUserRepository.findByUsername(authentication.getName()).get();
+    return commentMessageRepository.save(
+        new CommentMessage(
+            0,
+            commentMessage.getContent(),
+            LocalDateTime.now(),
+            ecoservice.getOwner().equals(actualEcoUser),
+            actualEcoUser,
+            ecoservice,
+            false));
+  }
 
-	private EcoUser findEcoUser(final Authentication authentication) {
-		Optional<EcoUser> optionalEcoUser = ecoUserRepository.findByUsername(authentication.getName());
-		EcoUser actualEcoUser = optionalEcoUser.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco User does not exist!"));
-		return actualEcoUser;
-	}
+  /**
+   * Service Provider user (owner) has authority to change persistence of a comment.
+   *
+   * @param commentId id of comment what you want to change
+   * @param isPersistence new value of field. store persistence = true
+   * @return CommentMessageDto
+   */
+  @Transactional
+  public CommentMessage changeCommentPersistence( final long commentId, final boolean isPersistence) {
+    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    final CommentMessage actualMessage =
+        commentMessageRepository
+            .findByIdAndEcoService_Owner_Username(commentId, authentication.getName())
+            .orElseThrow( () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Comment does not exist with this id!"));
+    actualMessage.setPersistent(isPersistence);
+    return commentMessageRepository.save(actualMessage);
+  }
 
-	/**
-	 * Service Provider user (owner) has authority to change persistence of a comment.
-	 * @param commentId id of comment what you want to change
-	 * @param isPersistence new value of field. store persistence = true
-	 * @return CommentMessageDto
-	 */
-	@Transactional
-	public CommentMessage changeCommentPersistancy(final long commentId, final boolean isPersistence) {
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		EcoUser actualEcoUser = findEcoUser(authentication);
-		CommentMessage actualMessage = findCommit(commentId);
-		if(actualEcoUser.getId() == actualMessage.getEcoService().getOwner().getId()) {
-			actualMessage.setPersistent(isPersistence);
-			return commentMessageRepository.save(actualMessage);
-		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment does not belongs to you!");
-	}
-
-	private CommentMessage findCommit(final long commentId) {
-		if(commentMessageRepository.existsById(commentId)) {
-			return commentMessageRepository.findById(commentId).get();
-		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment does not exist with this id!");
-	}
-	
+  @Transactional
+  public CommentMessage updateTextForExistedComment(CommentMessageDto commentMessageDto) {
+    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    final CommentMessage actualMessage =
+        commentMessageRepository
+            .findByIdAndCreator_Username(commentMessageDto.getId(), authentication.getName())
+            .orElseThrow( () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Comment does not exist with this id!"));
+    actualMessage.updateContent(commentMessageDto.getContent());
+    return commentMessageRepository.save(actualMessage);
+  }
 }
