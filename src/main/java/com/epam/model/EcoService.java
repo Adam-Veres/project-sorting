@@ -80,23 +80,6 @@ public class EcoService {
 		this.owner = owner;
 	}
 
-	//****** Why do we need it? ******/////////
-//	public EcoService(long id, String serviceName, Set<WasteType> typeOfWastes, Set<PaymentCondition> paymentConditions,
-//			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings,
-//			EcoUser owner, Set<CommentMessage> comments) {
-//		this.id = id;
-//		this.serviceName = serviceName;
-//		this.typeOfWastes = typeOfWastes;
-//		this.paymentConditions = paymentConditions;
-//		this.deliveryOptions = deliveryOptions;
-//		this.coordinate = coordinate;
-//		this.description = description;
-//		this.numOfRatings = numOfRatings;
-//		this.sumOfRatings = sumOfRatings;
-//		this.owner = owner;
-//		this.comments = comments;
-//	}
-	
 	public void addRating(double rating) {
 		BigDecimal rate = BigDecimal.valueOf(rating);
 		if(this.sumOfRatings == null) {

@@ -2,14 +2,7 @@ package com.epam.web;
 
 import javax.validation.Valid;
 
-import com.epam.dto.EcoServiceDto;
-import com.epam.dto.JwtControllersResponseMessage;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,7 +17,6 @@ import com.epam.security.Authority;
 import com.epam.service.CommentService;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.server.ResponseStatusException;
 
 @AllArgsConstructor
 @RestController
@@ -61,6 +53,11 @@ public class CommentController {
 				commentService.changeCommentPersistence(commentId, isPersistence));
 	}
 
+	/**
+	 * Modify existing comment by owner
+	 * @param commentMessageDto
+	 * @return modified comment in CommentDto
+	 */
 	@PutMapping
 	@PreAuthorize(Authority.HAS_USER_AUTHORITY)
 	public CommentMessageDto updateCommentMessage(@RequestBody @Valid final CommentMessageDto commentMessageDto) {
@@ -69,8 +66,4 @@ public class CommentController {
 
 	}
 
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> handleAuthenticationExceptionException(final Exception e) {
-		return new ResponseEntity<>(new CommentMessageDto(), HttpStatus.NO_CONTENT);
-	}
 }

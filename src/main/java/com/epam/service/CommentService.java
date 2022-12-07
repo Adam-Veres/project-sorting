@@ -36,17 +36,18 @@ public class CommentService {
    */
   @Transactional
   public CommentMessage addNewCommentToEcoService( final CommentMessage commentMessage, final long ecoServiceId) {
-    final EcoService ecoservice = ecoServiceRepository.findById(ecoServiceId).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Eco Service does not exist with this id!"));
+    final EcoService ecoservice = ecoServiceRepository
+    		.findById(ecoServiceId)
+    		.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service does not exist with this id!"));
     final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     EcoUser actualEcoUser = ecoUserRepository.findByUsername(authentication.getName()).get();
+    boolean persistence = (ecoservice.getOwner().equals(actualEcoUser)) && commentMessage.isPersistent();
     return commentMessageRepository.save(
         new CommentMessage(
             0,
             commentMessage.getContent(),
             LocalDateTime.now(),
-            ecoservice.getOwner().equals(actualEcoUser),
+            persistence,
             actualEcoUser,
             ecoservice,
             false));
@@ -62,23 +63,24 @@ public class CommentService {
   @Transactional
   public CommentMessage changeCommentPersistence( final long commentId, final boolean isPersistence) {
     final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    final CommentMessage actualMessage =
-        commentMessageRepository
+    final CommentMessage actualMessage = commentMessageRepository
             .findByIdAndEcoService_Owner_Username(commentId, authentication.getName())
-            .orElseThrow( () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Comment does not exist with this id!"));
+            .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment does not exist with this id!"));
     actualMessage.setPersistent(isPersistence);
     return commentMessageRepository.save(actualMessage);
   }
 
+  /**
+   * Modify content of the comment. Creation date also updated!
+   * @param commentMessageDto
+   * @return modified comment in Comment object
+   */
   @Transactional
   public CommentMessage updateTextForExistedComment(CommentMessageDto commentMessageDto) {
     final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    final CommentMessage actualMessage =
-        commentMessageRepository
+    final CommentMessage actualMessage = commentMessageRepository
             .findByIdAndCreator_Username(commentMessageDto.getId(), authentication.getName())
-            .orElseThrow( () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Comment does not exist with this id!"));
+            .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment does not exist with this id!"));
     actualMessage.updateContent(commentMessageDto.getContent());
     return commentMessageRepository.save(actualMessage);
   }
