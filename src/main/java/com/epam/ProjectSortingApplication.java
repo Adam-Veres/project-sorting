@@ -1,6 +1,11 @@
 package com.epam;
 
-import com.epam.model.*;
+import com.epam.model.Coordinate;
+import com.epam.model.DeliveryOption;
+import com.epam.model.EcoService;
+import com.epam.model.EcoUser;
+import com.epam.model.PaymentCondition;
+import com.epam.model.WasteType;
 import com.epam.repository.CoordinateRepository;
 import com.epam.repository.EcoServiceRepository;
 import com.epam.repository.EcoUserRepository;
