@@ -13,6 +13,7 @@ import com.epam.model.EcoService;
 public interface EcoServiceMapper {
 
 	@Mapping(target = "rating", source = "id", qualifiedBy = RatingEncoderMapping.class)
+	@Mapping(target = "comments", source = "comments", qualifiedBy = CommentsListMapping.class)
 	EcoServiceDto ecoServiceToEcoServiceDto(EcoService ecoService);
 
 	@Mapping(ignore = true, target = "owner")
@@ -20,6 +21,7 @@ public interface EcoServiceMapper {
 
 	List<EcoServiceDto> ecoServiceListToEcoServiceListDto(List<EcoService> allEcoService);
 	
+	@Mapping(target = "rating", source = "id", qualifiedBy = RatingEncoderMapping.class)
 	EcoServiceDtoNarrow ecoServiceToEcoServiceDtoNarrow(EcoService ecoService);
 
 	List<EcoServiceDtoNarrow> ecoServiceListToEcoServiceListDtoNarrow(List<EcoService> serviceFromArea);

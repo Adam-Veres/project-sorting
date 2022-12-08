@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import com.epam.model.*;
 import com.epam.repository.EcoUserRepository;
 import com.epam.security.EcoUserRole;
 import com.epam.service.OldCommentsRemover;
@@ -17,6 +16,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.epam.model.Coordinate;
+import com.epam.model.DeliveryOption;
+import com.epam.model.EcoService;
+import com.epam.model.EcoUser;
+import com.epam.model.PaymentCondition;
+import com.epam.model.WasteType;
 import com.epam.repository.EcoServiceRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -88,12 +93,12 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		
 		EcoService es1 = new EcoService(0, "Super Eco", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER)),
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
-				cord1, ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(0));
+				cord1, ja.toString(), allServiceUsers.get(0));
 		
 		jo_waste.put(WasteType.PLASTIC.toString(), "free");
 		EcoService es2 = new EcoService(0, "Recycle Hero", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
-				cord2, ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(0));
+				cord2, ja.toString(), allServiceUsers.get(0));
 		
 		jo_waste.remove(WasteType.PAPER.toString());
 		jo_waste.remove(WasteType.GLASS.toString());
@@ -101,13 +106,13 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		jo_waste.put(WasteType.PLASTIC.toString(), "0.01 EUR/kg");
 		EcoService es3 = new EcoService(0, "Plastic Eliminator", new HashSet<WasteType>(List.of(WasteType.PLASTIC)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
-				cord3, ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(0));
+				cord3, ja.toString(), allServiceUsers.get(0));
 		
 		jo_waste.remove(WasteType.PLASTIC.toString());
 		jo_waste.put(WasteType.ELECTRONIC.toString(), "0.05 EUR/kg");
 		EcoService es4 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
-				cord4, ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(1));
+				cord4, ja.toString(), allServiceUsers.get(1));
 		
 		jo_waste.remove(WasteType.ELECTRONIC.toString());
 		jo_waste.put(WasteType.GLASS.toString(), "free");
@@ -115,7 +120,7 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		jo_waste.put(WasteType.PLASTIC.toString(), "free");
 		EcoService es5 = new EcoService(0, "Eco Station I", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord5,
-				ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(2));
+				ja.toString(), allServiceUsers.get(2));
 		
 		jo_waste.remove(WasteType.PAPER.toString());
 		jo_waste.remove(WasteType.GLASS.toString());
@@ -125,14 +130,14 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		jo_delivery.put(DeliveryOption.TRUCK.toString(), "1 EUR/ 25kg");
 		EcoService es6 = new EcoService(0, "Metal man", new HashSet<WasteType>(List.of(WasteType.METALS)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN, DeliveryOption.TRUCK)),
-				cord6, ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(2));
+				cord6, ja.toString(), allServiceUsers.get(2));
 		
 		jo_waste.remove(WasteType.METALS.toString());
 		jo_waste.put(WasteType.PAPER.toString(), "0.03 EUR/kg");
 		jo_delivery.remove(DeliveryOption.TRUCK.toString());
 		EcoService es7 = new EcoService(0, "Make clean, not waste!", new HashSet<WasteType>(List.of(WasteType.PAPER)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)), cord7,
-				ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(2));
+				ja.toString(), allServiceUsers.get(2));
 		
 		jo_waste.remove(WasteType.PAPER.toString());
 		jo_waste.put(WasteType.METALS.toString(), "From 0.2 to 5.5 EUR/kg depends on type of metal.");
@@ -140,7 +145,7 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		jo_delivery.put(DeliveryOption.TRUCK.toString(), "1 EUR/ 30kg");
 		EcoService es8 = new EcoService(0, "ReMetalizer", new HashSet<WasteType>(List.of(WasteType.METALS)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD, PaymentCondition.CASH)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.TRUCK)),
-				cord8, ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(3));
+				cord8, ja.toString(), allServiceUsers.get(3));
 		
 		jo_waste.remove(WasteType.METALS.toString());
 		jo_waste.put(WasteType.GLASS.toString(), "free");
@@ -149,7 +154,7 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		jo_delivery.remove(DeliveryOption.TRUCK.toString());
 		EcoService es9 = new EcoService(0, "Eco Station II", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord9,
-				ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(3));
+				ja.toString(), allServiceUsers.get(3));
 		
 		jo_waste.remove(WasteType.PAPER.toString());
 		jo_waste.remove(WasteType.GLASS.toString());
@@ -157,14 +162,14 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		jo_waste.put(WasteType.GLASS.toString(), "0.04 EUR/kg");
 		EcoService es10 = new EcoService(0, "All glass melts fast", new HashSet<WasteType>(List.of(WasteType.GLASS)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CASH, PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)),
-				cord10, ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(3));
+				cord10, ja.toString(), allServiceUsers.get(3));
 		
 		jo_waste.remove(WasteType.GLASS.toString());
 		jo_waste.put(WasteType.ELECTRONIC.toString(), "0.05 EUR/kg");
 		jo_delivery.put(DeliveryOption.VAN.toString(), "1 EUR/ 10kg");
 		EcoService es11 = new EcoService(0, "Wall-e, electronic waste collector", new HashSet<WasteType>(List.of(WasteType.ELECTRONIC)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.CARD)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF, DeliveryOption.VAN)),
-				cord11, ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(4));
+				cord11, ja.toString(), allServiceUsers.get(4));
 		
 		jo_waste.remove(WasteType.ELECTRONIC.toString());
 		jo_waste.put(WasteType.GLASS.toString(), "free");
@@ -173,7 +178,7 @@ public class ProjectSortingApplication implements CommandLineRunner {
 		jo_delivery.remove(DeliveryOption.VAN.toString());
 		EcoService es12 = new EcoService(0, "Eco Station III", new HashSet<WasteType>(List.of(WasteType.GLASS, WasteType.PAPER, WasteType.PLASTIC)), 
 				new HashSet<PaymentCondition>(List.of(PaymentCondition.FREE)), new HashSet<DeliveryOption>(List.of(DeliveryOption.SELF)), cord12,
-				ja.toString(), BigDecimal.ZERO, BigDecimal.ZERO, allServiceUsers.get(4));
+				ja.toString(), allServiceUsers.get(4));
 
 		ecoServiceRepository.save(es1);
 		ecoServiceRepository.save(es2);

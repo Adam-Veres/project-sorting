@@ -2,7 +2,6 @@ package com.epam.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import java.math.BigDecimal;
 import java.util.Set;
 
 @Getter
@@ -44,10 +42,6 @@ public class EcoService {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Coordinate coordinate;
 	private String description;
-	@Setter(value = AccessLevel.NONE)
-	private BigDecimal numOfRatings;
-	@Setter(value = AccessLevel.NONE)
-	private BigDecimal sumOfRatings;
 
 	@JsonBackReference
 	@ManyToOne(optional=false, fetch=FetchType.LAZY)
@@ -59,8 +53,7 @@ public class EcoService {
 	private Set<CommentMessage> comments;
 	
 	public EcoService(long id, String serviceName, Set<WasteType> typeOfWastes, Set<PaymentCondition> paymentConditions,
-			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description, BigDecimal numOfRatings, BigDecimal sumOfRatings,
-			EcoUser owner) {
+			Set<DeliveryOption> deliveryOptions, Coordinate coordinate, String description,	EcoUser owner) {
 		this.id = id;
 		this.serviceName = serviceName;
 		this.typeOfWastes = typeOfWastes;
@@ -68,8 +61,6 @@ public class EcoService {
 		this.deliveryOptions = deliveryOptions;
 		this.coordinate = coordinate;
 		this.description = description;
-		this.numOfRatings = numOfRatings;
-		this.sumOfRatings = sumOfRatings;
 		this.owner = owner;
 	}
 	

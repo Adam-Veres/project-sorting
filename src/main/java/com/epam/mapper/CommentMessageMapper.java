@@ -1,7 +1,5 @@
 package com.epam.mapper;
 
-import com.epam.dto.EcoServiceDto;
-import com.epam.model.EcoService;
 import org.mapstruct.Mapper;
 
 import com.epam.dto.CommentMessageDto;
