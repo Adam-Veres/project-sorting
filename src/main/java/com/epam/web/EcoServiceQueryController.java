@@ -26,9 +26,9 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class EcoServiceQueryController {
 
-  EcoServiceService ecoServiceService;
+  private final EcoServiceService ecoServiceService;
 
-  EcoServiceMapper ecoServiceMapper;
+  private final EcoServiceMapper ecoServiceMapper;
 
   /** @return give back all Eco Services from database */
   @GetMapping
