@@ -1,12 +1,12 @@
 package com.epam.dto;
 
-import java.util.Set;
-
-import com.epam.model.Coordinate;
 import com.epam.model.DeliveryOption;
 import com.epam.model.PaymentCondition;
 import com.epam.model.WasteType;
-
+import java.math.BigDecimal;
+import java.util.Set;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +14,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class EcoServiceDto {
 
-	long id;
-	String serviceName;
-	Set<WasteType> typeOfWastes;
-	Set<PaymentCondition> paymentConditions;
-	Set<DeliveryOption> deliveryOptions;
-	Coordinate coordinate;
-	
+  private long id;
+  @NotBlank private String serviceName;
+  private Set<WasteType> typeOfWastes;
+  private Set<PaymentCondition> paymentConditions;
+  private Set<DeliveryOption> deliveryOptions;
+  @NotNull private CoordinateDto coordinate;
+  private String description;
+  private BigDecimal rating;
 }

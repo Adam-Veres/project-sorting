@@ -1,13 +1,16 @@
 package com.epam.repository;
 
-
 import com.epam.model.EcoUser;
-import org.springframework.data.repository.CrudRepository;
+import com.epam.security.EcoUserRole;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EcoUserRepository extends CrudRepository<EcoUser, Integer> {
-	
-	EcoUser findByUsername(String username);
-	
+public interface EcoUserRepository extends JpaRepository<EcoUser, Long> {
+
+  Optional<EcoUser> findByUsername(final String username);
+
+  List<EcoUser> findAllByUserRole(final EcoUserRole role);
 }
