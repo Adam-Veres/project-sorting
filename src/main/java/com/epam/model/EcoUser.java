@@ -1,6 +1,7 @@
 package com.epam.model;
 
 import com.epam.security.EcoUserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +26,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table
 @Setter
 @Getter
 @Builder
@@ -60,6 +60,10 @@ public class EcoUser {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "creator")
 	private List<CommentMessage> comments;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "creator", fetch=FetchType.LAZY)
+	private List<ServiceRating> ratings;
 
 	@Override
 	public boolean equals(Object o) {

@@ -32,7 +32,7 @@ public class EcoServiceDto {
 	@NotNull
 	private CoordinateDto coordinate;
 	private String description;
-	private BigDecimal rating;
+	private Float rating;
 	private List<CommentMessageDto> comments;
 	
 }

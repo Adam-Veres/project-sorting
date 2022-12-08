@@ -7,8 +7,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Qualifier // org.mapstruct.Qualifier
+@Qualifier
 @Target({ElementType.TYPE,ElementType.METHOD})
 @Retention(RetentionPolicy.CLASS)
-public @interface EncodedMapping {
+public @interface PasswordEncoderMapping {
 }

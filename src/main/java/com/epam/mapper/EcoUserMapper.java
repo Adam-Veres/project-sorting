@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", uses = PasswordEncoderMapper.class)
+@Mapper(componentModel = "spring", uses = CommonMapper.class)
 public interface EcoUserMapper {
 
     EcoUserMapper INSTANCE = Mappers.getMapper( EcoUserMapper.class );
@@ -14,6 +14,6 @@ public interface EcoUserMapper {
     @Mapping(target = "password", constant = "***")
     EcoUserDTO ecoUserToEcoUserDto(EcoUser ecoUser);
 
-    @Mapping(target = "password", qualifiedBy = EncodedMapping.class)
+    @Mapping(target = "password", qualifiedBy = PasswordEncoderMapping.class)
     EcoUser ecoUserDtoToEcoUser(EcoUserDTO userDto);
 }

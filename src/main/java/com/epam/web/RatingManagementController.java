@@ -30,7 +30,7 @@ public class RatingManagementController {
      * @return the whole service with updated rating
      */
     @PutMapping(path = "/{rating}/{id}")
-    public EcoServiceDto addRatingToEcoService(@PathVariable @Valid @Min(0) @Max(5) final double rating, @PathVariable final long id) {
+    public EcoServiceDto addRatingToEcoService(@PathVariable @Valid @Min(1) @Max(5) final int rating, @PathVariable final long id) {
         return ecoServiceMapper.ecoServiceToEcoServiceDto(serviceManagementService.addRatingToEcoService(rating, id));
     }
 }

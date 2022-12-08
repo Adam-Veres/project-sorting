@@ -9,12 +9,12 @@ import com.epam.dto.EcoServiceDto;
 import com.epam.dto.EcoServiceDtoNarrow;
 import com.epam.model.EcoService;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = CommonMapper.class)
 public interface EcoServiceMapper {
 
+	@Mapping(target = "rating", source = "id", qualifiedBy = RatingEncoderMapping.class)
 	EcoServiceDto ecoServiceToEcoServiceDto(EcoService ecoService);
-	
-	@Mapping(ignore = true, target = "rating")
+
 	@Mapping(ignore = true, target = "owner")
 	EcoService ecoServiceDtoToEcoService(EcoServiceDto ecoServiceDto);
 

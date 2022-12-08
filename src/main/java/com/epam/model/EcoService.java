@@ -19,10 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.Set;
 
 @Getter
@@ -51,16 +48,12 @@ public class EcoService {
 	private BigDecimal numOfRatings;
 	@Setter(value = AccessLevel.NONE)
 	private BigDecimal sumOfRatings;
-	@Setter(value = AccessLevel.NONE)
-	@Getter(value = AccessLevel.NONE)
-	@Transient
-	private BigDecimal rating;
 
 	@JsonBackReference
 	@ManyToOne(optional=false, fetch=FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private EcoUser owner;
-	
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "ecoService", fetch=FetchType.EAGER)
 	private Set<CommentMessage> comments;
@@ -78,30 +71,6 @@ public class EcoService {
 		this.numOfRatings = numOfRatings;
 		this.sumOfRatings = sumOfRatings;
 		this.owner = owner;
-	}
-
-	public void addRating(double rating) {
-		BigDecimal rate = BigDecimal.valueOf(rating);
-		if(this.sumOfRatings == null) {
-			this.sumOfRatings = rate;
-			this.numOfRatings = BigDecimal.ONE;
-		} else {
-			this.sumOfRatings = this.sumOfRatings.add(rate);
-			this.numOfRatings = this.numOfRatings.add(BigDecimal.ONE);
-		}
-	}
-	
-	private void countRating() {
-		if(this.sumOfRatings != null && this.numOfRatings != null && (this.numOfRatings.compareTo(BigDecimal.ZERO) != 0)) {
-			this.rating =  this.sumOfRatings.divide(this.numOfRatings, new MathContext(2, RoundingMode.HALF_UP));
-		} else {
-			this.rating = BigDecimal.ZERO;
-		}
-	}
-
-	public BigDecimal getRating() {
-		countRating();
-		return this.rating;
 	}
 	
 }
