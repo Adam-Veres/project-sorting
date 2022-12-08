@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@PreAuthorize(Authority.HAS_USER_AUTHORITY)
+@PreAuthorize(Authority.HAS_RATING_AUTHORITY)
 @Validated
 @RequiredArgsConstructor
 @RestController

@@ -8,13 +8,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.epam.security.Authority.*;
+import static com.epam.security.Authority.AUTHORITY_ANONYMOUS;
+import static com.epam.security.Authority.AUTHORITY_USER;
+import static com.epam.security.Authority.AUTHORITY_RATING;
+import static com.epam.security.Authority.AUTHORITY_SERVICE;
+
 
 
 public enum EcoUserRole {
     ANONYMOUS(AUTHORITY_ANONYMOUS),
     @JsonProperty("User")
-    USER(AUTHORITY_ANONYMOUS,AUTHORITY_USER),
+    USER(AUTHORITY_ANONYMOUS,AUTHORITY_USER,AUTHORITY_RATING),
     @JsonProperty("Service")
     SERVICE(AUTHORITY_ANONYMOUS, AUTHORITY_USER, AUTHORITY_SERVICE);
 
