@@ -61,11 +61,11 @@ public class EcoServiceQueryController {
 	 * @return list of Eco Services in the area (DTO)
 	 */
 	@GetMapping(params = {"bl_latitude", "bl_longitude", "tr_latitude", "tr_longitude"})
-	public List<EcoServiceDtoNarrow> getServicesFromArea(@RequestParam(name = "bl_latitude") Optional<BigDecimal> blLatitude,
-			@RequestParam(name = "bl_longitude") Optional<BigDecimal> blLongitude,
-			@RequestParam(name = "tr_latitude") Optional<BigDecimal> trLatitude,
-			@RequestParam(name = "tr_longitude") Optional<BigDecimal> trLongitude) {
-		List<EcoServiceDtoNarrow> ecoServices = ecoServiceMapper.ecoServiceListToEcoServiceListDtoNarrow(
+	public List<EcoServiceDtoNarrow> getServicesFromArea(@RequestParam(name = "bl_latitude") final Optional<BigDecimal> blLatitude,
+			@RequestParam(name = "bl_longitude") final Optional<BigDecimal> blLongitude,
+			@RequestParam(name = "tr_latitude") final Optional<BigDecimal> trLatitude,
+			@RequestParam(name = "tr_longitude") final Optional<BigDecimal> trLongitude) {
+		final List<EcoServiceDtoNarrow> ecoServices = ecoServiceMapper.ecoServiceListToEcoServiceListDtoNarrow(
 				ecoServiceService.getServiceFromArea(blLatitude, blLongitude, trLatitude, trLongitude));
 		if(!ecoServices.isEmpty()) {
 			return ecoServices;

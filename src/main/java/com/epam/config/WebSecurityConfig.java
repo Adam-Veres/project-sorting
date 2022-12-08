@@ -26,51 +26,56 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-	private final UserDetailsService jwtUserDetailsService;
+  private final UserDetailsService jwtUserDetailsService;
 
-	private final JwtRequestFilter jwtRequestFilter;
+  private final JwtRequestFilter jwtRequestFilter;
 
-	private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-		// configure AuthenticationManager so that it knows from where to load
-		// user for matching credentials
-		// Use BCryptPasswordEncoder
-		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder);
-	}
+  @Autowired
+  public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
+    // configure AuthenticationManager so that it knows from where to load
+    // user for matching credentials
+    // Use BCryptPasswordEncoder
+    auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder);
+  }
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-	@Override
-	protected void configure(final HttpSecurity httpSecurity) throws Exception {
-		// We don't need CSRF ---> I think need and can do it
-		httpSecurity
-				.csrf().disable()
-				//.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
-				.cors().and()
-				// make sure we use stateless session; session won't be used to
-				// store user's state.
-				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+  @Override
+  protected void configure(final HttpSecurity httpSecurity) throws Exception {
+    // We don't need CSRF ---> I think need and can do it
+    httpSecurity
+        .csrf()
+        .disable()
+        // .cors().configurationSource(request -> new
+        // CorsConfiguration().applyPermitDefaultValues()).and()
+        .cors()
+        .and()
+        // make sure we use stateless session; session won't be used to
+        // store user's state.
+        .exceptionHandling()
+        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		// Add a filter to validate the tokens with every request
-		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-	}
+    // Add a filter to validate the tokens with every request
+    httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+  }
 
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration corsConfiguration =new CorsConfiguration();
-		corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
-		source.registerCorsConfiguration("/**", corsConfiguration.applyPermitDefaultValues());
-		return source;
-	}
-
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    final CorsConfiguration corsConfiguration = new CorsConfiguration();
+    corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
+    source.registerCorsConfiguration("/**", corsConfiguration.applyPermitDefaultValues());
+    return source;
+  }
 }

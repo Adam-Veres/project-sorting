@@ -53,7 +53,7 @@ public class SecurityUser implements UserDetails {
         return true;
     }
 
-    public static UserDetails fromEcoUser(EcoUser user){
+    public static UserDetails fromEcoUser(final EcoUser user){
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())

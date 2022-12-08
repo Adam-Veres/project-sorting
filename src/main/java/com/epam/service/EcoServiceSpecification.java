@@ -13,23 +13,23 @@ import com.epam.model.WasteType;
 
 public class EcoServiceSpecification {
 
-	public static Specification<EcoService> hasAreaLatitude(BigDecimal startLatitude, BigDecimal stopLatitude) {
+	public static Specification<EcoService> hasAreaLatitude(final BigDecimal startLatitude, final BigDecimal stopLatitude) {
 		return (root, cq, cb) -> cb.between(root.get(EcoService_.coordinate).get(Coordinate_.latitude), startLatitude, stopLatitude);
 	}
 	
-	public static Specification<EcoService> hasAreaLongitude(BigDecimal startLongitude, BigDecimal stopLongitude) {
+	public static Specification<EcoService> hasAreaLongitude(final BigDecimal startLongitude, final BigDecimal stopLongitude) {
 		return (root, cq, cb) -> cb.between(root.get(EcoService_.coordinate).get(Coordinate_.longitude), startLongitude, stopLongitude);
 	}
 	
-	public static Specification<EcoService> hasTypeOfWaste(WasteType wasteType) {
+	public static Specification<EcoService> hasTypeOfWaste(final WasteType wasteType) {
 		return (root, cq, cb) -> cb.isMember(wasteType, root.get(EcoService_.typeOfWastes));
 	}
 	
-	public static Specification<EcoService> hasDeliveryOption(DeliveryOption deliveryOption) {
+	public static Specification<EcoService> hasDeliveryOption(final DeliveryOption deliveryOption) {
 		return (root, cq, cb) -> cb.isMember(deliveryOption, root.get(EcoService_.deliveryOptions));
 	}
 	
-	public static Specification<EcoService> hasPaymentCondition(PaymentCondition paymentCondition) {
+	public static Specification<EcoService> hasPaymentCondition(final PaymentCondition paymentCondition) {
 		return (root, cq, cb) -> cb.isMember(paymentCondition, root.get(EcoService_.paymentConditions));
 	}
 	

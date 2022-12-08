@@ -36,12 +36,12 @@ public class EcoServiceService {
 	 * @param trLongitude
 	 * @return List<EcoService>
 	 */
-	public List<EcoService> getServiceFromArea(Optional<BigDecimal> blLatitude, Optional<BigDecimal> blLongitude,
-			Optional<BigDecimal> trLatitude, Optional<BigDecimal> trLongitude) {
-		BigDecimal startLatitude = blLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
-		BigDecimal startLongitude = blLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
-		BigDecimal stopLatitude = trLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
-		BigDecimal stopLongitude = trLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+	public List<EcoService> getServiceFromArea(final Optional<BigDecimal> blLatitude, final Optional<BigDecimal> blLongitude,
+											   final Optional<BigDecimal> trLatitude, final Optional<BigDecimal> trLongitude) {
+		final BigDecimal startLatitude = blLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		final BigDecimal startLongitude = blLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		final BigDecimal stopLatitude = trLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		final BigDecimal stopLongitude = trLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
 		
 		return ecoServiceRepository.findAllByCoordinateBetweenBorders(startLatitude, stopLatitude, startLongitude, stopLongitude);
 	}
@@ -55,15 +55,15 @@ public class EcoServiceService {
 	 * @param trLongitude
 	 * @return List<EcoService>
 	 */
-	public List<EcoService> getFilteredService(EcoService ecoService, Optional<BigDecimal> blLatitude, Optional<BigDecimal> blLongitude,
-			Optional<BigDecimal> trLatitude, Optional<BigDecimal> trLongitude) {
-		BigDecimal startLatitude = blLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
-		BigDecimal startLongitude = blLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
-		BigDecimal stopLatitude = trLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
-		BigDecimal stopLongitude = trLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
-		Set<DeliveryOption> deliveryOptions = ecoService.getDeliveryOptions();
-		Set<PaymentCondition> paymentConditions = ecoService.getPaymentConditions();
-		Set<WasteType> typesOfWaste = ecoService.getTypeOfWastes();
+	public List<EcoService> getFilteredService(final EcoService ecoService, final Optional<BigDecimal> blLatitude, final Optional<BigDecimal> blLongitude,
+											   final Optional<BigDecimal> trLatitude, final Optional<BigDecimal> trLongitude) {
+		final BigDecimal startLatitude = blLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		final BigDecimal startLongitude = blLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		final BigDecimal stopLatitude = trLatitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		final BigDecimal stopLongitude = trLongitude.orElseThrow(() -> new IllegalArgumentException("Value can not be null!"));
+		final Set<DeliveryOption> deliveryOptions = ecoService.getDeliveryOptions();
+		final Set<PaymentCondition> paymentConditions = ecoService.getPaymentConditions();
+		final Set<WasteType> typesOfWaste = ecoService.getTypeOfWastes();
 		Specification<EcoService> spec = Specification.where(null);
 		
 		spec = spec.and(EcoServiceSpecification.hasAreaLatitude(startLatitude, stopLatitude));
@@ -95,10 +95,9 @@ public class EcoServiceService {
 	 * @param id of a service
 	 * @return service what belongs to the given id
 	 */
-	public Optional<EcoService> getServiceById(Optional<Long> id) {
-		Long identifier = id.orElseThrow(() -> new IllegalArgumentException("Given ID is not a valid format!"));
-		EcoService es = ecoServiceRepository.findById(identifier).get();
-		return Optional.of(es);
+	public Optional<EcoService> getServiceById(final Optional<Long> id) {
+		final Long identifier = id.orElseThrow(() -> new IllegalArgumentException("Given ID is not a valid format!"));
+		return ecoServiceRepository.findById(identifier);
 	}
 
 

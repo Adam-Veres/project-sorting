@@ -48,7 +48,7 @@ public class JwtEcoUserService {
         }
     }
 
-    public String getToken(String userName, String password){
+    public String getToken(final String userName, final String password){
         authenticate(userName, password);
         final Map<String, Object> claims = new HashMap<>();
         ecoUserRepository.findByUsername(userName).ifPresent(

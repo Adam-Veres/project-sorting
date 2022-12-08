@@ -23,22 +23,22 @@ public class CommonMapper {
     private final CommentMessageMapper commentMessageMapper;
 
     @PasswordEncoderMapping
-    public String encode(String value) {
+    public String encode(final String value) {
         return passwordEncoder.encode(value);
     }
 
     @RatingEncoderMapping
-    public Float getRating(long serviceId){
+    public Float getRating(final long serviceId){
         return serviceRatingRepository.averageServiceRating(serviceId).orElse(0.0F);
     }
     
     @CommentsListMapping
-    public List<CommentMessageDto> commentMessageSetToCommentMessageDtoList(Set<CommentMessage> set) {
+    public List<CommentMessageDto> commentMessageSetToCommentMessageDtoList(final Set<CommentMessage> set) {
         if ( set == null ) {
             return null;
         }
 
-        List<CommentMessageDto> list = new ArrayList<CommentMessageDto>( set.size() );
+        final List<CommentMessageDto> list = new ArrayList<>( set.size() );
         for ( CommentMessage commentMessage : set ) {
             list.add( commentMessageMapper.commentMessageToCommentMessageDto( commentMessage ) );
         }

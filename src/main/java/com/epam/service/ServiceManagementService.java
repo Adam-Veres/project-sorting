@@ -79,7 +79,7 @@ public class ServiceManagementService {
    * @return the upgraded entity
    */
   @Transactional
-  public EcoService addRatingToEcoService(int ratingValue, long serviceId)
+  public EcoService addRatingToEcoService(final int ratingValue, final long serviceId)
       throws ResponseStatusException {
     final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     final ServiceRating rating =

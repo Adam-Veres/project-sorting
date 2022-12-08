@@ -12,7 +12,7 @@ public enum Authority {
 
     private final String authority;
 
-    Authority(String authority) {
+    Authority(final String authority) {
         this.authority = authority;
     }
 

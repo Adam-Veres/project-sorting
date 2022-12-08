@@ -41,7 +41,7 @@ public class CommentService {
     		.findById(ecoServiceId)
     		.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service does not exist with this id!"));
     final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    EcoUser actualEcoUser = ecoUserRepository.findByUsername(authentication.getName()).get();
+    final EcoUser actualEcoUser = ecoUserRepository.findByUsername(authentication.getName()).get();
     boolean persistence = (ecoservice.getOwner().equals(actualEcoUser)) && commentMessage.isPersistent();
     return commentMessageRepository.save(
         new CommentMessage(
@@ -77,7 +77,7 @@ public class CommentService {
    * @return modified comment in Comment object
    */
   @Transactional
-  public CommentMessage updateTextForExistedComment(CommentMessageDto commentMessageDto) {
+  public CommentMessage updateTextForExistedComment(final CommentMessageDto commentMessageDto) {
     final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     final CommentMessage actualMessage = commentMessageRepository
             .findByIdAndCreator_Username(commentMessageDto.getId(), authentication.getName())
@@ -86,7 +86,7 @@ public class CommentService {
     return commentMessageRepository.save(actualMessage);
   }
 
-    public List<CommentMessage> getAllMessagesForEcoService(long ecoServiceId) {
+    public List<CommentMessage> getAllMessagesForEcoService(final long ecoServiceId) {
       return commentMessageRepository.findAllByEcoService_Id(ecoServiceId);
     }
 }

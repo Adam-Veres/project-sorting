@@ -24,7 +24,7 @@ public enum EcoUserRole {
 
     private final List<Authority> authorities;
 
-    EcoUserRole(Authority ... authorities) {
+    EcoUserRole(final Authority ... authorities) {
         this.authorities = Arrays.asList(authorities);
     }
 
