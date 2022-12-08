@@ -1,17 +1,16 @@
 package com.epam.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -20,32 +19,30 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CommentMessage {
 
-	@Id
-	@GeneratedValue
-	private long id;
+  @Id @GeneratedValue private long id;
 
-	@Column(columnDefinition = "TEXT")
-	private String content;
+  @Column(columnDefinition = "TEXT")
+  private String content;
 
-	@Setter(value = AccessLevel.NONE)
-	private LocalDateTime timeStamp;
+  @Setter(value = AccessLevel.NONE)
+  private LocalDateTime timeStamp;
 
-	private boolean persistent;
+  private boolean persistent;
 
-	@Setter(value = AccessLevel.NONE)
-	@ManyToOne
-	private EcoUser creator;
+  @Setter(value = AccessLevel.NONE)
+  @ManyToOne
+  private EcoUser creator;
 
-	@Setter(value = AccessLevel.NONE)
-	@ManyToOne
-	private EcoService ecoService;
+  @Setter(value = AccessLevel.NONE)
+  @ManyToOne
+  private EcoService ecoService;
 
-	@Setter(value = AccessLevel.NONE)
-	private boolean updated;
+  @Setter(value = AccessLevel.NONE)
+  private boolean updated;
 
-	public void updateContent(String content) {
-		this.content=content;
-		timeStamp=LocalDateTime.now();
-		updated=true;
-	}
+  public void updateContent(String content) {
+    this.content = content;
+    timeStamp = LocalDateTime.now();
+    updated = true;
+  }
 }

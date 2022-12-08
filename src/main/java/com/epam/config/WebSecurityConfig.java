@@ -1,5 +1,6 @@
 package com.epam.config;
 
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -50,12 +49,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(final HttpSecurity httpSecurity) throws Exception {
-    // We don't need CSRF ---> I think need and can do it
     httpSecurity
         .csrf()
         .disable()
-        // .cors().configurationSource(request -> new
-        // CorsConfiguration().applyPermitDefaultValues()).and()
         .cors()
         .and()
         // make sure we use stateless session; session won't be used to

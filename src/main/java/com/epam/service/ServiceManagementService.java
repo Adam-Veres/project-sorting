@@ -5,14 +5,13 @@ import com.epam.model.ServiceRating;
 import com.epam.repository.EcoServiceRepository;
 import com.epam.repository.EcoUserRepository;
 import com.epam.repository.ServiceRatingRepository;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +59,9 @@ public class ServiceManagementService {
     final EcoService existingEcoService =
         ecoServiceRepository
             .findByOwner_UsernameAndId(authentication.getName(), id)
-            .orElseThrow(() -> new ResponseStatusException(
+            .orElseThrow(
+                () ->
+                    new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Eco Service not found with this id!"));
     existingEcoService.setDeliveryOptions(ecoService.getDeliveryOptions());
     existingEcoService.setPaymentConditions(ecoService.getPaymentConditions());
@@ -90,9 +91,12 @@ public class ServiceManagementService {
                     0L,
                     ratingValue,
                     ecoUserRepository.findByUsername(authentication.getName()).get(),
-                    ecoServiceRepository.findById(serviceId)
+                    ecoServiceRepository
+                        .findById(serviceId)
                         .orElseThrow(
-                            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Eco Service not found with this id!"))));
+                            () ->
+                                new ResponseStatusException(
+                                    HttpStatus.NOT_FOUND, "Eco Service not found with this id!"))));
     rating.setRating(ratingValue);
     serviceRatingRepository.save(rating);
     return rating.getEcoService();

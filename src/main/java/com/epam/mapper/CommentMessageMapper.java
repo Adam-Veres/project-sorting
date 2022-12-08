@@ -1,19 +1,17 @@
 package com.epam.mapper;
 
-import org.mapstruct.Mapper;
-
 import com.epam.dto.CommentMessageDto;
 import com.epam.model.CommentMessage;
-
 import java.util.List;
+import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CommentMessageMapper {
 
-	CommentMessage commentMessageDtoToCommentMessage(CommentMessageDto commentMessageDto);
+  CommentMessage commentMessageDtoToCommentMessage(final CommentMessageDto commentMessageDto);
 
-	CommentMessageDto commentMessageToCommentMessageDto(CommentMessage commentMessage);
+  CommentMessageDto commentMessageToCommentMessageDto(final CommentMessage commentMessage);
 
-	List<CommentMessageDto> commentMessageListToCommentMessageListDto(List<CommentMessage> allCommentMessages);
-
+  List<CommentMessageDto> commentMessageListToCommentMessageListDto(
+      final List<CommentMessage> allCommentMessages);
 }

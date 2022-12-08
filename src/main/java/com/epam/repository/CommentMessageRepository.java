@@ -1,22 +1,21 @@
 package com.epam.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.epam.model.CommentMessage;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface CommentMessageRepository extends JpaRepository<CommentMessage, Long>{
-	
-    Optional<CommentMessage> findByIdAndCreator_Username(Long aLong, String username);
-    
-    Optional<CommentMessage> findByIdAndEcoService_Owner_Username(Long aLong, String username);
+public interface CommentMessageRepository extends JpaRepository<CommentMessage, Long> {
 
-    @Transactional
-    int deleteAllByTimeStampBeforeAndPersistentIsFalse(LocalDateTime date);
+  Optional<CommentMessage> findByIdAndCreator_Username(final Long aLong, final String username);
 
-    List<CommentMessage> findAllByEcoService_Id(long id);
+  Optional<CommentMessage> findByIdAndEcoService_Owner_Username(
+      final Long aLong, final String username);
+
+  @Transactional
+  int deleteAllByTimeStampBeforeAndPersistentIsFalse(final LocalDateTime date);
+
+  List<CommentMessage> findAllByEcoService_Id(final long id);
 }

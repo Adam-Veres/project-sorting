@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/api/auth/")
 @RequiredArgsConstructor
@@ -24,25 +23,27 @@ public class JwtAuthenticationController {
   private final JwtEcoUserService jwtEcoUserService;
 
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-  public ResponseEntity<?> createAuthenticationToken(@RequestBody final JwtAuthRequest authenticationRequest) {
+  public ResponseEntity<?> createAuthenticationToken(
+      @RequestBody final JwtAuthRequest authenticationRequest) {
     return ResponseEntity.ok(
         new JwtTockenResponse(
             jwtEcoUserService.getToken(
                 authenticationRequest.getUsername(), authenticationRequest.getPassword())));
   }
 
-	@ExceptionHandler(AuthenticationException.class)
-	public ResponseEntity<?> handleAuthenticationExceptionException(final AuthenticationException e) {
-		return new ResponseEntity<>(new JwtControllersResponseMessage(e), HttpStatus.UNAUTHORIZED);
-	}
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<?> handleAuthenticationExceptionException(final AuthenticationException e) {
+    return new ResponseEntity<>(new JwtControllersResponseMessage(e), HttpStatus.UNAUTHORIZED);
+  }
 
-	@ExceptionHandler(BindException.class)
-	public ResponseEntity<?> handleMethodArgumentNotValidException(final BindException e) {
-		return new ResponseEntity<>(new JwtControllersResponseMessage(e), HttpStatus.UNAUTHORIZED);
-	}
+  @ExceptionHandler(BindException.class)
+  public ResponseEntity<?> handleMethodArgumentNotValidException(final BindException e) {
+    return new ResponseEntity<>(new JwtControllersResponseMessage(e), HttpStatus.UNAUTHORIZED);
+  }
 
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> handleException(final Exception e) {
-		return new ResponseEntity<>(new JwtControllersResponseMessage("COMMON_ERROR"), HttpStatus.UNAUTHORIZED);
-	}
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<?> handleException(final Exception e) {
+    return new ResponseEntity<>(
+        new JwtControllersResponseMessage("COMMON_ERROR"), HttpStatus.UNAUTHORIZED);
+  }
 }
