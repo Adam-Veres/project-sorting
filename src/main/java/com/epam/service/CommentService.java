@@ -104,4 +104,9 @@ public class CommentService {
   public List<CommentMessage> getAllMessagesForEcoService(final long ecoServiceId) {
     return commentMessageRepository.findAllByEcoService_Id(ecoServiceId);
   }
+
+  public List<CommentMessage> removeCommentsFromEcoService(long commentId) {
+    commentMessageRepository.deleteById(commentId);
+    return getAllMessagesForEcoService(commentId);
+  }
 }

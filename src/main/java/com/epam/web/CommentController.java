@@ -8,6 +8,7 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,13 @@ public class CommentController {
       @PathVariable final long ecoServiceId) {
     return commentMessageMapper.commentMessageListToCommentMessageListDto(
         commentService.getAllMessagesForEcoService(ecoServiceId));
+  }
+
+  @DeleteMapping("/{commentId}")
+  public List<CommentMessageDto> removeCommentsFromEcoService(
+          @PathVariable final long commentId) {
+    return commentMessageMapper.commentMessageListToCommentMessageListDto(
+            commentService.removeCommentsFromEcoService(commentId));
   }
 
   /**
