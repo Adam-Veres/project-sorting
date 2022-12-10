@@ -18,7 +18,7 @@ import lombok.ToString;
 public class EcoUserDTO {
 
   @NotBlank
-  @Pattern(regexp = "^[a-zA-Z\\d]+$", message = "LoginError")
+  @Pattern(regexp = "^[a-zA-Z\\d.@_]+$", message = "LoginError")
   @Size(min = 4, max = 24, message = "LoginSizeError")
   private String username;
 
@@ -28,7 +28,7 @@ public class EcoUserDTO {
   private String password;
 
   @NotBlank(message = "EmailEmptyError")
-  @Email(regexp = "^[a-zA-Z\\d.]+@[a-zA-Z\\d.]+$", message = "EmailError")
+  @Email(regexp = "^[a-zA-Z\\d._]+@[a-zA-Z\\d._]+$", message = "EmailError")
   private String email;
 
   @JsonAlias("role")
